@@ -1,4 +1,4 @@
-# Parametric Monorail
+# Brick Monorail
 
 ## Design differences
 
@@ -14,11 +14,17 @@ _These are 3d printing optimized, compatible rails, not replicas. Replicas print
 
 ## Printing
 
-To be compatible with standard bricks, the following print settings are recommended
+To be compatible with standard bricks, the following print settings are strongly advised
 
 - Nozzle: 0.4, this is equivalent to 1 LDU.
-- Layer height: 0.1, though 0.2 will also do. Refrain from using 0.15, since that does not cleanly divides the LDU.
-- Supports: Tree (normal supports may print faster, but lead to way worse results. But ymmv).
+- Layer height: Ideally 0.1, though 0.2 will also do. Refrain from using 0.15, since that does not cleanly divides the LDU.
+  - Make sure your initial layer height is either 0.2 or 0.4!
+- Enable Bridge Settings in Cura
+- Supports: **none**. These parts are designed to be printed without any supports, though some of the bridging is not exactly
+  what you would call easy for the printer, so be on the lookout.
+- Make sure you set your "Initial Layer Horizontal Expansion" to a value that works for you, for example -0.2mm to
+  compensate for elephant's foot. Better overcompensate here, if you don't do this you might not be able to fit
+  bricks in the slot!
 
 My prints were done on a modified SecKit SK-Go2 running Klipper, with 10k acceleration and 150mm/s print speed for a good
 balance of speed and quality. A short rail will take about an hour to print.
