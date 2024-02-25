@@ -1,7 +1,17 @@
-include <lib/BOSL/shapes.scad>;
-include <lib/BOSL/transforms.scad>;
-include <lib/BOSL/constants.scad>;
-include <lib/BOSL/beziers.scad>;
+include <BOSL2/std.scad>;
+include <BOSL2/beziers.scad>;
+
+Type="straight"; // [straight, curve]
+// Only applies to straight tracks
+Length=8; // [4:1:56]
+// Only applies to curves
+Radius=28; // [4:1:36]
+// The angle at which the curve starts
+StartAngle=0; // [0:15:360]
+// The angle at which the curve ends
+EndAngle=45; // [0:15:360]
+
+module __CustomizerLimit__() {}
 
 $LDU=0.4;
 
@@ -17,10 +27,6 @@ $fillet=$LDU / 2;
 $edgeTolerance=$LDU / 2;
 
 $len = 20;
-
-
-//translate([28.75, -232, -5.75]) rotate([0, 0, 90]) import("straight.stl");
-
 
 $baseHeight = $tile;
 $baseWidth = 4 * $tile;
@@ -51,12 +57,12 @@ module tooth() {
 }
 
 module brickSlot(w=1, l=1, h=3) {
-  cuboid([$tile * w, $tile * l, $plate * h], align=V_DOWN);
+  cube([$tile * w, $tile * l, $plate * h], anchor=TOP);
   mirror_copy([1, 0, 0])
     mirror_copy([0, 1, 0])
     translate([$tile / 2, $tile / 2, 0])
-    cyl(d=$fillet, h=$plate * h, align=V_DOWN, $fn=12);
-  cuboid([$stud, $stud, $studHeight * 2], align=V_TOP);
+    cyl(d=$fillet, h=$plate * h, anchor=TOP, $fn=12);
+  cube([$stud, $stud, $studHeight * 2], anchor=BOTTOM);
 }
 
 module endCapStraight() {
@@ -64,44 +70,44 @@ module endCapStraight() {
   union() {
     difference() {
       union() {
-        cuboid([$width, $tile * 2, $tile], edges=EDGE_BOT_FR+EDGE_BOT_RT+EDGE_BOT_LF);
+        cube([$width, $tile * 2, $tile], anchor=CENTER);
         difference() {
           mirror_copy([0, 1, 0])
             translate([0, $tile / 2, 0])
-            cyl(l=$width + $studHeight * 2, d=$stud, orient=ORIENT_X, $fn=24);
+            cyl(l=$width + $studHeight * 2 + $LDU / 2, d=$stud + $LDU, orient=LEFT, $fn=24);
           mirror_copy([1, 0, 0])
-            translate([$tile * 2, 0, -$stud / 2])
-            rotate([0, -14, 0])
-            cuboid([$studHeight * 10, $tile * 4, $LDU * 2], align=V_TOP+V_LEFT);
+            translate([$tile * 2, 0, -$stud / 2 - 0.2])
+            rotate([0, -7, 0])
+            cube([$studHeight * 10, $tile * 4, $LDU], anchor=BOTTOM+RIGHT);
         }
 
-        translate([$tile, -$tile, 0]) cuboid([8 * $LDU, $LDU, $tile], align=V_RIGHT+V_FRONT);
+        translate([$tile, -$tile, 0]) cube([8 * $LDU, $LDU, $tile], anchor=LEFT+BACK);
       }
-      // Fingernail slot
-      mirror_copy([1, 0, 0])
-        translate([$width / 2, 0, $tile / 2])
-        cuboid([$LDU, $tile, $LDU])
-
-      translate([$plate, $tile / 2, $tile - $LDU]) cube([$LDU, $tile, $LDU]);
-      translate([$width + $plate - $LDU, $tile / 2, $tile - $LDU]) cube([$LDU, $tile, $LDU]);
-
       // Brick slots
       mirror_copy([1, 0, 0])
         translate([$tile / 2, -$tile / 2, $tile / 2 - $plate * 2])
         brickSlot();
       // Bridging improvements
-      translate([0, 0, $tile / 2 - $plate * 2]) cuboid([$tile * 2, $tile - 4 * $LDU, $LDU], align=V_FRONT);
-      translate([0, -4 * $LDU, $tile / 2 - $plate * 2]) cuboid([$tile * 2, $stud, $LDU * 2], align=V_FRONT);
+      translate([0, 0, $tile / 2 - $plate * 2]) cube([$tile * 2, $tile - 4 * $LDU, $LDU], anchor=BACK);
+      translate([0, -4 * $LDU, $tile / 2 - $plate * 2]) cube([$tile * 2, $stud, $LDU * 2], anchor=BACK);
+
+      // Fingernail slot
+      mirror_copy([1, 0, 0])
+        translate([$width / 2, 0, $tile / 2])
+        cube([$LDU * 3, $tile, $LDU * 3], anchor=CENTER)
+
+      translate([$plate, $tile / 2, $tile - $LDU]) cube([$LDU, $tile, $LDU]);
+      translate([$width + $plate - $LDU, $tile / 2, $tile - $LDU]) cube([$LDU, $tile, $LDU]);
 
       // End Slots
-      translate([-$tile, -$tile, 0]) cuboid([8 * $LDU, $LDU, $tile], align=V_LEFT+V_BACK);
-      place_copies([[-$tile, -$tile + $LDU], [$tile + 8 * $LDU, -$tile, 0]])
+      translate([-$tile, -$tile, 0]) cube([8 * $LDU, $LDU, $tile], anchor=RIGHT+FRONT);
+      move_copies([[-$tile, -$tile + $LDU], [$tile + 8 * $LDU, -$tile, 0]])
         mirror_copy([1, 0, 0], cp=[-4 * $LDU, 0, 0])
         cyl(d=$fillet, h=$tile, $fn=12);
     }
 
     // Rail
-    translate([0, $teethTolerance / 2, $tile / 2]) cuboid([$teethRailWidth, $tile * 2 - $teethTolerance, $plate], align=V_TOP);
+    translate([0, $teethTolerance / 2, $tile / 2]) cuboid([$teethRailWidth, $tile * 2 - $teethTolerance, $plate], anchor=BOTTOM);
     translate([0, -$tile, $tile / 2]) group() {
       for (i = [0:(2 * $teeth - 1)]) {
         translate([0, i * $teethWidth, 0]) tooth();
@@ -110,15 +116,66 @@ module endCapStraight() {
   }
 }
 
-module curve90(r=12) {
-  translate([r * $tile, $tile, 0]) endCapStraight();
-  translate([$tile, r * $tile, 0]) rotate(-90) endCapStraight();
-  //ir = ($r 
-  path = [[2 * $tile, r * $tile, 0], [r * $tile / 2, r * $tile, 0], [r * $tile, r * $tile / 2, 0], [r * $tile,  2 * $tile, 0]];
-  extrude_2d_shapes_along_bezier(path) {
-    circle(r=10);
+module monorailCurve(p0, p1, p2, resolution=512) {
+  union() {
+    /*translate([r * $tile, $tile, 0]) endCapStraight();
+    translate([$tile, r * $tile, 0]) rotate(-90) endCapStraight();
+
+    $radius = (r - 2) * $tile;*/
+
+    bez = [p0, p1, p2];
+    debug_bezier(bez, N=len(bez)-1);
+    $n_teeth = round(bezier_length(bez) / $tile * $teeth);
+    echo($n_teeth);
+    $points = bezier_curve(bez, $n_teeth);
+
+    translate($points[0]) rot(from=[0, 1, 0], to=bezier_tangent(bez, 0)) fwd($tile) endCapStraight();
+    translate($points[len($points) - 1]) rot(from=[0, -1, 0], to=bezier_tangent(bez, 1)) fwd($tile) endCapStraight();
+    path_sweep([
+      [-$teethRailWidth / 2, $tile / 2 + $plate],
+      [-$teethRailWidth / 2, $tile / 2],
+      [-2 * $tile, $tile / 2],
+      [-2 * $tile, -$tile / 2],
+      [2 * $tile, -$tile / 2],
+      [2 * $tile, $tile / 2],
+      [$teethRailWidth / 2, $tile / 2],
+      [$teethRailWidth / 2, $tile / 2 + $plate],
+    ], $points, tangent=bezier_tangent(bez, [0:1/$n_teeth:1]));
+    translate([0, 0, $tile / 2]) path_copies($points, n=$n_teeth) rotate([-90, 90, 0]) tooth();
+
+    //extrude_2d_shapes_along_bezier(path) square([4 * $tile, $tile]);
+
+    /*translate([2 * $tile, 2 * $tile]) intersection() {
+      arced_slot(r=$radius, h=$tile, sd=4 * $tile, sa=sa, ea=ea, $fn=resolution);
+    }
+    translate([2 * $tile, 2 * $tile, $tile / 2])
+      arced_slot($radius, h=$plate, sd=$teethRailWidth, align=V_TOP, sa=sa, ea=ea, $fn=resolution);
+    translate([2 * $tile, 2 * $tile, $tile / 2])
+      arc_of(n = round(((PI * $radius) / (180 / (ea - sa))) / $tile * $teeth), r=(r - 2) * $tile, rot=true, sa=sa, ea=ea, $fn=resolution)
+      tooth();*/
   }
 }
 
-//curve90();
-endCapStraight();
+module monorailStraight(l) {
+  union() {
+    translate([0, $tile, 0]) endCapStraight();
+    translate([0, (l - 1) * $tile, 0]) rotate(180) endCapStraight();
+    if (l > 4) {
+      translate([0, $tile * 2, 0]) cube([4 * $tile, (l - 4) * $tile, $tile], anchor=FRONT);
+      translate([0, $tile * 2, $tile / 2]) cube([$teethRailWidth, (l - 4) * $tile, $plate], anchor=BOTTOM+FRONT);
+      translate([0, $tile * 2, $tile / 2]) group() {
+        for (i = [0:($teeth * (l - 4) - 1)]) {
+          translate([0, i * $teethWidth, 0]) tooth();
+        }
+      };
+    }
+  }
+}
+
+if (Type == "straight")
+  monorailStraight(l=Length);
+else if (Type == "curve")
+  monorailCurve(p0=[0, 0, 0], p1=[5, 40, 0], p2=[80, 80, 0]);
+
+// endCapStraight();
+// translate([28.75, -232, -5.75]) rotate([0, 0, 90]) import("straight.stl");

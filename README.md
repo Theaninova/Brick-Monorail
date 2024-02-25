@@ -1,5 +1,23 @@
 # Brick Monorail
 
+Parametric Lego-compatible monorail tracks, designed specifically for 3d printing.
+
+Since the parts are made parametric, you can have any length or curve radius you want,
+but these are the original tracks you can replicate
+
+| Lego Name         | Parameters               |
+| ----------------- | ------------------------ |
+| Straight Long     | `monorailStraight(l=32)` |
+| Straight Short    | `monorailStraight(l=8)`  |
+| Curve Long        | `monorailCurve90(r=28)`  |
+| Curve Short Left  | ❌                       |
+| Curve Short Right | ❌                       |
+| Ramp Upper Part   | ❌                       |
+| Ramp Lower Part   | ❌                       |
+| Monoswitch        | ❌                       |
+| Point Right       | ❌                       |
+| Point Left        | ❌                       |
+
 ## Design differences
 
 Injection molding has vastly different requirements to 3d printing.
@@ -7,8 +25,10 @@ Due to this the original rails print absolutely horribly due to the copious amou
 Surfaces printed on supports just never look good.
 
 Because of that, I decided to instead of having a support part on the bottom, I'd carve out space for
-two stacked 1x2 plates, as well as a special two-high printable brick you can use for compatibility with the
-old support mounts.
+a 1x2 plate, which you can fit there for the same effect.
+
+The monorail tracks are also solid now, which is not something you can do in injection molding but leaves
+a really nice surface finish at the bottom of the rail for us.
 
 _These are 3d printing optimized, compatible rails, not replicas. Replicas print horribly due to support._
 

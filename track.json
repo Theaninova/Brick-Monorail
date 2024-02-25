@@ -1,0 +1,30 @@
+{
+  "fileFormatVersion": "1",
+  "parameterSets": {
+    "90 Degree Curve": {
+      "Radius": "28",
+      "Length": "32",
+      "Type": "curve"
+    },
+    "Full Straight": {
+      "Radius": "28",
+      "Length": "32",
+      "Type": "straight"
+    },
+    "Half Straight": {
+      "Radius": "28",
+      "Length": "16",
+      "Type": "straight"
+    },
+    "Quarter Straight": {
+      "Radius": "28",
+      "Length": "8",
+      "Type": "straight"
+    },
+    "4 Studs Straight": {
+      "Radius": "28",
+      "Length": "4",
+      "Type": "straight"
+    }
+  }
+}
