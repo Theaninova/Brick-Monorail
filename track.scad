@@ -1,19 +1,23 @@
 include <BOSL2/std.scad>;
 include <BOSL2/beziers.scad>;
 
+/* [Print Settings] */
+// Some feature are generated with respect to the layer height
+LayerHeight = 0.2; // [0.1,0.13,0.2]
 // Enable built-in support for 3d printing
-Support=true;
-// Supports are generated with respect to the layer height
-LayerHeight=0.2; // [0.05,0.1,0.2]
-
+Support = true;
+/* [Model Settings] */
 // Only applies to straight tracks
-Length=8; // [4:1:56]
+Length = 8; // [4:1:56]
 // Only applies to curves
-Radius=28; // [4:1:36]
-// The angle at the y- axis
-StartAngle=45; // [0:15:90]
-// The angle at the y+ axis
-EndAngle=0; // [0:15:90]
+Radius = 28; // [4:1:36]
+// TODO: Incline of the track
+Incline = 0; // [-10:1:10]
+AlignInclineToBaseplate = true;
+// The angle the track takes
+Angle = 0.0;
+// Useful when working with Pythagorean Triples
+UseLengthForCurveAngle = true;
 
 module __CustomizerLimit__() {}
 
@@ -167,10 +171,10 @@ module monorailStraight(l) {
   }
 }
 
-if (EndAngle == 0 && StartAngle == 0)
+if (Angle == 0)
   monorailStraight(l=Length);
 else
-  monorailCurve(Radius, sa=StartAngle, ea=EndAngle);
+  monorailCurve(Radius, sa=0, ea=UseLengthForCurveAngle ? asin(Length / Radius) : Angle);
 
 // endCapStraight();
 // translate([28.75, -232, -5.75]) rotate([0, 0, 90]) import("straight.stl");

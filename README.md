@@ -12,8 +12,8 @@ but these are the original tracks you can replicate
 | Straight Quarter    | ✓         |               |            |
 | Straight 4-studs    | ✓         | ~10ct         | 15m        |
 | Curve Long          | ✓         |               |            |
-| Curve Short Left    | ❌        |               |            |
-| Curve Short Right   | ❌        |               |            |
+| Curve Short Left    | ⚠️        |               |            |
+| Curve Short Right   | ⚠️        |               |            |
 | Ramp Upper Part     | ❌        |               |            |
 | Ramp Lower Part     | ❌        |               |            |
 | Monoswitch          | ❌        |               |            |
@@ -32,7 +32,33 @@ a 1x2 plate, which you can fit there for the same effect.
 The monorail tracks are also solid now, which is not something you can do in injection molding but leaves
 a really nice surface finish at the bottom of the rail for us.
 
+For now, I also use non-baseplate aligned joints for curves. While this means you can't just snap the rails
+on a baseplate, it enables you to use straight rails at non-90 degree angles which I think is an absolute
+win over the original design since the 45 degree curves are useless outside of joining them with switches.
+
 _These are 3d printing optimized, compatible rails, not replicas. Replicas print horribly due to support._
+
+### Optional Differences
+
+#### Operating on r25 instead of r28
+
+What difference do these three studs make?
+With this radius we can take advantage of the pythagorean triples `3/4/5` and `7/24/25` to stay on the stud
+grid with turntables.
+
+- Curve C15
+- Curve C7
+- Straight S21
+- Straight S7
+- Straight S6
+
+Two C15 and one C7 make exactly a 90 degree turn, where every part stays on the stud grid.
+
+An s-curve with C7 moves two studs, and can be extended by 1 stud
+with S7 or 3 studs with S21.
+
+An s-curve with C15 moves over 20 studs, and can be extended by 8 studs
+with S6 or 28 studs with S21 straights.
 
 ## Printing
 
