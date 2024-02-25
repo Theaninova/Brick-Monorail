@@ -5,18 +5,20 @@ Parametric Lego-compatible monorail tracks, designed specifically for 3d printin
 Since the parts are made parametric, you can have any length or curve radius you want,
 but these are the original tracks you can replicate
 
-| Lego Name         | Parameters               |
-| ----------------- | ------------------------ |
-| Straight Long     | `monorailStraight(l=32)` |
-| Straight Short    | `monorailStraight(l=8)`  |
-| Curve Long        | `monorailCurve90(r=28)`  |
-| Curve Short Left  | ❌                       |
-| Curve Short Right | ❌                       |
-| Ramp Upper Part   | ❌                       |
-| Ramp Lower Part   | ❌                       |
-| Monoswitch        | ❌                       |
-| Point Right       | ❌                       |
-| Point Left        | ❌                       |
+| Common Name         | Supported | Material Cost | Print Time |
+| ------------------- | --------- | ------------- | ---------- |
+| Straight Long/Full  | ✓         |               |            |
+| Straight Short/Half | ✓         |               |            |
+| Straight Quarter    | ✓         |               |            |
+| Straight 4-studs    | ✓         | ~10ct         | 15m        |
+| Curve Long          | ✓         |               |            |
+| Curve Short Left    | ❌        |               |            |
+| Curve Short Right   | ❌        |               |            |
+| Ramp Upper Part     | ❌        |               |            |
+| Ramp Lower Part     | ❌        |               |            |
+| Monoswitch          | ❌        |               |            |
+| Point Right         | ❌        |               |            |
+| Point Left          | ❌        |               |            |
 
 ## Design differences
 
