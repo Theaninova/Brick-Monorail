@@ -1,6 +1,7 @@
 # Brick Monorail
 
 Parametric Lego-compatible monorail tracks, designed specifically for 3d printing.
+Two orders of magnitude cheaper than buying used.
 
 Since the parts are made parametric, you can have any length or curve radius you want,
 but these are the original tracks you can replicate
@@ -11,9 +12,9 @@ As an overview, or why it's worth a try: They print rapidly on modern printers, 
 | --------------------- | ------------- | ---------- |
 | C15                   | ~10ct         | 45m        |
 | C7                    | ~5ct          | 15m        |
-| S21                   | ~12ct         | 1h         |
-| S7                    | ~5ct          | 15m        |
-| S6                    | ~5ct          | 15m        |
+| S25                   | ~12ct         | 1h         |
+| S10                   | ~5ct          | 15m        |
+| S5                    | ~5ct          | 15m        |
 | Classic R28 90° Curve | ~25ct         | 2h         |
 | Classic R28 45° Curve | ~12ct         | 1h         |
 | Classic L32 Straight  | ~20ct         | 1.5h       |
@@ -53,24 +54,25 @@ grid with turntables.
 - Straight S21
 - Straight S7
 - Straight S6
+- Incline I4
 
-Two C15 and one C7 make exactly a 90 degree turn, where every part stays on the stud grid.
+How it fits
 
-An s-curve with C7 moves two studs, and can be extended by 1 stud
-with S7 or 3 studs with S21.
+- Two C15 and one C7 make exactly a 90 degree turn, where every part stays on the stud grid.
+- An s-curve with C15 moves over 20 studs, diagonals can be done with any length divisible by 5
+- An s-curve with C7 moves two studs, but diagonals require a full S25 to land cleanly again.
 
-An s-curve with C15 moves over 20 studs, and can be extended by 8 studs
-with S6 or 28 studs with S21 straights.
+![](./r25.svg)
 
 ## Printing
 
 To be compatible with standard bricks, the following print settings are strongly advised
 
 - Nozzle: **0.4**, this is equivalent to 1 LDU.
-- Layer height: **0.2** will also do. Refrain from using 0.15, since that does not cleanly divides the LDU.
-  - Make sure your initial layer height is either 0.2 or 0.4!
+- Layer height: **0.2**, less than that is barely better and just causes more problems than it solves.
+  If you want to go lower, it's advisable to use heights that satisfy `0.4 % h == 0` such as 0.1.
+  - **Make sure your initial layer height is either 0.2 or 0.4!**
 - Supports: **yes**, normal, don't use tree supports.
-  what you would call easy for the printer, so be on the lookout.
 - Set your "Initial Layer Horizontal Expansion" to a value that works for you, for example -0.2mm to compensate for elephant's foot.
   Alternatively, you can trim the extra plastic off by hand.
 

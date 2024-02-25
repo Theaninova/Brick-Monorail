@@ -1,0 +1,51 @@
+<svg version="1.1"
+     viewBox="0 0 100 50"
+     width="1000" height="500"
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="smallGrid" width="1" height="1" patternUnits="userSpaceOnUse">
+      <circle cx="0.5" cy="0.5" r="0.25" fill="none" stroke="#0004" stroke-width="0.05" />
+    </pattern>
+    <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="1000" height="10" fill="url(#smallGrid)"/>
+      <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#0006" stroke-width="0.1"/>
+    </pattern>
+  </defs>
+      
+  <rect width="100%" height="100%" fill="url(#grid)" />
+
+  <text font-size="4" x="1" y="4">R25 Monorail</text>
+
+  <path d="M40 30 a 25 25 0 0 1 5 -15" stroke-width="4" stroke="#0f0a" fill="none" />
+  <path d="M45 15 a 25 25 0 0 1 5 -5" stroke-width="4" stroke="#f00a" fill="none" />
+  <path d="M65 5 a 25 25 0 0 0 -15 5" stroke-width="4" stroke="#0f0a" fill="none" />
+
+  <path d="M10 8 a 25 25 0 0 1 15 5" stroke-width="4" stroke="#0f0a" fill="none" />
+  <text x="1" y="8" font-size="2" dominant-baseline="middle">C15</text>
+
+  <path d="M10 14 a 25 25 0 0 1 7 1" stroke-width="4" stroke="#f00a" fill="none" />
+  <text x="1" y="14" font-size="2" dominant-baseline="middle">C7</text>
+
+  <path d="M10 20 l25 0" stroke-width="4" stroke="#00fa" fill="none" />
+  <text x="1" y="20" font-size="2" dominant-baseline="middle">S25</text>
+  <path d="M10 26 l10 0" stroke-width="4" stroke="#00fa" fill="none" />
+  <text x="1" y="26" font-size="2" dominant-baseline="middle">S10</text>
+  <path d="M10 32 l5 0" stroke-width="4" stroke="#00fa" fill="none" />
+  <text x="1" y="32" font-size="2" dominant-baseline="middle">S5</text>
+  <path d="M10 38 l4 0" stroke-width="4" stroke="#00fa" fill="none" />
+  <text x="1" y="38" font-size="2" dominant-baseline="middle">S4</text>
+
+  <path d="M70 8 a 25 25 0 0 1 7 1" stroke-width="4" stroke="#f007" fill="none" />
+  <path d="M84 10 a 25 25 0 0 1 -7 -1" stroke-width="4" stroke="#f00a" fill="none" />
+
+  <path d="M60 12 a 25 25 0 0 1 15 5" stroke-width="4" stroke="#0f07" fill="none" />
+  <path d="M90 22 a 25 25 0 0 1 -15 -5" stroke-width="4" stroke="#0f0a" fill="none" />
+
+  <path d="M30 38 a 25 25 0 0 0 15 -5" stroke-width="4" stroke="#0f0a" fill="none" />
+  <path d="M45 33 l 4 -3" stroke-width="4" stroke="#00fa" fill="none" />
+  <path d="M49 30 a 25 25 0 0 1 15 -5" stroke-width="4" stroke="#0f0a" fill="none" />
+
+  <path d="M30 46 a 25 25 0 0 0 7 -1" stroke-width="4" stroke="#0f0a" fill="none" />
+  <path d="M37 45 l 24 -7" stroke-width="4" stroke="#00fa" fill="none" />
+  <path d="M61 38 a 25 25 0 0 1 7 -1" stroke-width="4" stroke="#0f0a" fill="none" />
+</svg>
