@@ -7,17 +7,12 @@ LayerHeight = 0.2; // [0.1,0.13,0.2]
 // Enable built-in support for 3d printing
 Support = true;
 /* [Model Settings] */
-// Only applies to straight tracks
 Length = 8; // [4:1:56]
-// Only applies to curves
-Radius = 28; // [4:1:36]
-// TODO: Incline of the track
-Incline = 0; // [-10:1:10]
-AlignInclineToBaseplate = true;
-// The angle the track takes
-Angle = 0.0;
 // Useful when working with Pythagorean Triples
 UseLengthForCurveAngle = true;
+Radius = 28; // [4:1:36]
+// The angle the track takes
+Angle = 0.0;
 
 module __CustomizerLimit__() {}
 
@@ -31,7 +26,7 @@ $plate=8 * $LDU;
 $studBrim=$tile - $stud;
 $studSupport=8 * $LDU;
 
-$fillet=$LDU / 2;
+$fillet=$LDU;
 $edgeTolerance=$LDU / 2;
 
 $len = 20;
@@ -83,7 +78,8 @@ module endCapStraight(includeRail=true) {
           translate([0, $tile / 2, 0])
           cyl(l=$width + $studHeight * 2 + $LDU / 2, d=$stud, orient=LEFT, $fn=24);
 
-        translate([$tile, -$tile, 0]) cube([8 * $LDU, $LDU, $tile], anchor=LEFT+BACK);
+        // End Slot
+        translate([$tile + $LDU, -$tile, 0]) cube([6 * $LDU, $LDU, $tile], anchor=LEFT+BACK);
 
         if (Support) {
           mirror_copy([1, 0, 0]) difference() {
@@ -98,9 +94,6 @@ module endCapStraight(includeRail=true) {
       mirror_copy([1, 0, 0])
         translate([$tile / 2, -$tile / 2, $tile / 2 - $plate * 2])
         brickSlot();
-      // Bridging improvements
-      translate([0, 0, $tile / 2 - $plate * 2]) cube([$tile * 2, $tile - 4 * $LDU, $LDU], anchor=BACK);
-      translate([0, -4 * $LDU, $tile / 2 - $plate * 2]) cube([$tile * 2, $stud, $LDU * 2], anchor=BACK);
 
       // Fingernail slot
       mirror_copy([1, 0, 0])
@@ -111,10 +104,20 @@ module endCapStraight(includeRail=true) {
       translate([$width + $plate - $LDU, $tile / 2, $tile - $LDU]) cube([$LDU, $tile, $LDU]);
 
       // End Slots
-      translate([-$tile, -$tile, 0]) cube([8 * $LDU, $LDU, $tile], anchor=RIGHT+FRONT);
-      move_copies([[-$tile, -$tile + $LDU], [$tile + 8 * $LDU, -$tile, 0]])
+      translate([-$tile, -$tile, 0]) cube([8 * $LDU, $LDU * 2, $tile], anchor=RIGHT+FRONT);
+      translate([$tile + 7 * $LDU, -$tile, 0])
+        mirror_copy([1, 0, 0], cp=[-3 * $LDU, 0, 0])
+        cyl(d=$fillet, h=$tile, $fn=12);
+      translate([-$tile, -$tile + $LDU * 2])
         mirror_copy([1, 0, 0], cp=[-4 * $LDU, 0, 0])
         cyl(d=$fillet, h=$tile, $fn=12);
+    }
+
+    if (Support) {
+      translate([0, -$tile, -$tile / 2])
+        rect_tube(size=[$tile * 2 - $LDU * 2, $tile - $LDU * 2], h=$LDU * 4 - LayerHeight, wall=$LDU * 2, anchor=FRONT+BOTTOM);
+      translate([0, -$tile, -$tile / 2])
+        cube([$LDU * 2, $tile - $LDU * 2, $LDU * 4 - LayerHeight], anchor=FRONT+BOTTOM);
     }
 
     if (includeRail) {
@@ -130,7 +133,7 @@ module endCapStraight(includeRail=true) {
 }
 
 module monorailCurve(r=28, sa, ea, p1) {
-  $n_teeth = round((PI * r * $tile) / (360 / abs(-sa - ea)));
+  $n_teeth = round((PI * r * $tile) / (295 / abs(-sa - ea)));
   angle = [180 - ea, 180 + sa];
   points = arc($n_teeth, r=(r * $tile), angle=angle);
 
@@ -150,8 +153,10 @@ module monorailCurve(r=28, sa, ea, p1) {
       ], points);
       translate(points[0]) rot(-ea) cube([$tile * 6, $tile * 4, $tile], anchor=CENTER);
       translate(points[len(points) - 1]) rot(sa) cube([$tile * 6, $tile * 4, $tile], anchor=CENTER);
+      translate(points[0]) rot(-ea) translate([0, -$teethWidth/2, 0]) cube([$tile * 6, $tile * 4, $tile], anchor=BOTTOM+FRONT);
+      translate(points[len(points) - 1]) rot(sa) translate([0, $teethWidth/2, 0]) cube([$tile * 6, $tile * 4, $tile], anchor=BOTTOM+BACK);
     }
-    translate([0, 0, $tile / 2]) arc_copies($n_teeth, r=(r * $tile), sa=angle[0], ea=angle[1]) tooth();
+    translate([0, 0, $tile / 2]) arc_copies($n_teeth + 1, r=(r * $tile), sa=angle[0], ea=angle[1] - (180 * ($teethWidth / (PI * r * $tile)))) tooth();
   }
 }
 
