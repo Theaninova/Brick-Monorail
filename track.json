@@ -1,30 +1,88 @@
 {
   "fileFormatVersion": "1",
   "parameterSets": {
-    "90 Degree Curve": {
-      "Radius": "28",
-      "Length": "32",
-      "Type": "curve"
+    "C15": {
+      "Angle": 1,
+      "Length": 15,
+      "Radius": 25,
+      "UseLengthForCurveAngle": true,
+      "Support": false
     },
-    "Full Straight": {
-      "Radius": "28",
-      "Length": "32",
-      "Type": "straight"
+    "C7": {
+      "Angle": 1,
+      "Length": 7,
+      "Radius": 25,
+      "UseLengthForCurveAngle": true,
+      "Support": false
     },
-    "Half Straight": {
-      "Radius": "28",
-      "Length": "16",
-      "Type": "straight"
+    "S25": {
+      "Angle": 0,
+      "Length": 25,
+      "Radius": 25,
+      "UseLengthForCurveAngle": true,
+      "Support": false
     },
-    "Quarter Straight": {
-      "Radius": "28",
-      "Length": "8",
-      "Type": "straight"
+    "S10": {
+      "Angle": 0,
+      "Length": 10,
+      "Radius": 25,
+      "UseLengthForCurveAngle": true,
+      "Support": false
     },
-    "4 Studs Straight": {
-      "Radius": "28",
-      "Length": "4",
-      "Type": "straight"
+    "S5": {
+      "Angle": 0,
+      "Length": 5,
+      "Radius": 25,
+      "UseLengthForCurveAngle": true,
+      "Support": false
+    },
+    "S4": {
+      "Angle": 0,
+      "Length": 4,
+      "Radius": 25,
+      "UseLengthForCurveAngle": true,
+      "Support": false
+    },
+    "Classic Full Straight": {
+      "Angle": 0,
+      "Length": 32,
+      "Radius": 28,
+      "UseLengthForCurveAngle": false,
+      "Support": false
+    },
+    "Classic Half Straight": {
+      "Angle": 0,
+      "Length": 16,
+      "Radius": 28,
+      "UseLengthForCurveAngle": false,
+      "Support": false
+    },
+    "Classic Quarter Straight": {
+      "Angle": 0,
+      "Length": 8,
+      "Radius": 28,
+      "UseLengthForCurveAngle": false,
+      "Support": false
+    },
+    "Classic Full Curve": {
+      "Angle": 90,
+      "Length": 8,
+      "Radius": 28,
+      "UseLengthForCurveAngle": false,
+      "Support": false
+    },
+    "Classic Half Curve": {
+      "Angle": 45,
+      "Length": 8,
+      "Radius": 28,
+      "UseLengthForCurveAngle": false,
+      "Support": false
+    },
+    "StudInsert": {
+      "Type": "studs"
+    },
+    "AntiStudInsert": {
+      "Type": "antistuds"
     }
   }
 }

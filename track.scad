@@ -4,13 +4,18 @@ include <BOSL2/beziers.scad>;
 /* [Print Settings] */
 // Some feature are generated with respect to the layer height
 LayerHeight = 0.2; // [0.1,0.13,0.2]
-// Enable built-in support for 3d printing
-Support = true;
+// Mid-print stud inserts allowing the studs to be printed facing up seperately
+StudInserts = false;
+// Mid-print slot inserts eliminating the need for supports
+AntiStudInserts = false;
+// Part to generate
+Type = "rail"; // [rail,studs,antistuds]
+
 /* [Model Settings] */
 Length = 8; // [4:1:56]
 // Useful when working with Pythagorean Triples
 UseLengthForCurveAngle = true;
-Radius = 28; // [4:1:36]
+Radius = 25; // [4:1:36]
 // The angle the track takes
 Angle = 0.0;
 
@@ -59,6 +64,35 @@ module tooth() {
   ]);
 }
 
+module antiStudInsert(carve=true, depth=$studHeight * 2, supportHeight=$LDU * 4, supportWidth=$LDU * 4) {
+  difference() {
+    union() {
+      cube([$tile * 2, $tile, depth + supportHeight], anchor=FRONT+BOTTOM);
+      translate([0, $tile, 0]) cube([$tile * 2 + supportWidth, supportWidth, depth + supportHeight], anchor=FRONT+BOTTOM);
+      translate([0, $tile / 2, 0]) cube([$tile * 2 + supportWidth, supportWidth, depth + supportHeight], anchor=FRONT+BOTTOM);
+    }
+
+    if (carve) {
+      mirror_copy([1, 0, 0])
+      translate([$tile / 2, $tile / 2, 0]) group() {
+        cube([$stud, $stud, depth], anchor=BOTTOM+CENTER);
+        mirror_copy([0, 1, 0])
+          mirror_copy([1, 0, 0])
+          translate([$LDU * 2, $LDU * 2, 0])
+          cube([$stud / 2, $stud / 2, depth], anchor=BOTTOM+FRONT+LEFT);
+      }
+    }
+  }
+}
+
+module studInsert(supportThickness = $LDU * 4) {
+  mirror_copy([0, 1, 0]) translate([0, $tile / 2, 0]) group() {
+    cube([supportThickness, $stud, $stud], anchor=RIGHT);
+    cyl(l=$studHeight, d=$stud, $fn=48, anchor=TOP, orient=LEFT);
+  }
+  translate([-supportThickness, 0, 0]) cube([supportThickness, $tile + $stud + $LDU, $stud], anchor=RIGHT);
+}
+
 module brickSlot(w=1, l=1, h=3) {
   cube([$tile * w, $tile * l, $plate * h], anchor=TOP);
   mirror_copy([1, 0, 0])
@@ -74,26 +108,20 @@ module endCapStraight(includeRail=true) {
     difference() {
       union() {
         cube([$width, $tile * 2, $tile], anchor=CENTER);
-        mirror_copy([0, 1, 0])
-          translate([0, $tile / 2, 0])
-          cyl(l=$width + $studHeight * 2 + $LDU / 2, d=$stud, orient=LEFT, $fn=24);
+        if (!StudInserts) {
+          mirror_copy([1, 0, 0]) translate([$width / 2, 0, 0]) studInsert();
+        }
 
         // End Slot
         translate([$tile + $LDU, -$tile, 0]) cube([6 * $LDU, $LDU, $tile], anchor=LEFT+BACK);
-
-        if (Support) {
-          mirror_copy([1, 0, 0]) difference() {
-            translate([$tile * 2 - $studHeight, 0, -$tile / 2]) cube([$LDU * 3, $tile * 2 - $LDU - 2, $LDU * 6], anchor=BOTTOM+RIGHT);
-            mirror_copy([0, 1, 0])
-              translate([0, $tile / 2, 0])
-              cyl(l=$width + $studHeight * 2 + $LDU / 2, d=$stud + LayerHeight * 2, orient=LEFT, $fn=24);
-          }
-        }
       }
-      // Brick slots
-      mirror_copy([1, 0, 0])
-        translate([$tile / 2, -$tile / 2, $tile / 2 - $plate * 2])
-        brickSlot();
+
+      if (StudInserts) {
+        mirror_copy([1, 0, 0]) translate([$width / 2, 0, 0]) studInsert();
+      }
+      
+      translate([0, -$tile, $tile / 2 - $plate * 2]) cube([$tile * 2, $tile, $plate], anchor=FRONT+TOP);
+      translate([0, -$tile, $tile / 2 - $plate * 2]) antiStudInsert(carve=false);
 
       // Fingernail slot
       mirror_copy([1, 0, 0])
@@ -113,11 +141,8 @@ module endCapStraight(includeRail=true) {
         cyl(d=$fillet, h=$tile, $fn=12);
     }
 
-    if (Support) {
-      translate([0, -$tile, -$tile / 2])
-        rect_tube(size=[$tile * 2 - $LDU * 2, $tile - $LDU * 2], h=$LDU * 4 - LayerHeight, wall=$LDU * 2, anchor=FRONT+BOTTOM);
-      translate([0, -$tile, -$tile / 2])
-        cube([$LDU * 2, $tile - $LDU * 2, $LDU * 4 - LayerHeight], anchor=FRONT+BOTTOM);
+    if (!AntiStudInserts) {
+      translate([0, -$tile, $tile / 2 - $plate * 2]) antiStudInsert();
     }
 
     if (includeRail) {
@@ -136,6 +161,9 @@ module monorailCurve(r=28, sa, ea, p1) {
   $n_teeth = round((PI * r * $tile) / (295 / abs(-sa - ea)));
   angle = [180 - ea, 180 + sa];
   points = arc($n_teeth, r=(r * $tile), angle=angle);
+
+  echo(points[0] / $tile);
+  echo(points[len(points) - 1] / $tile);
 
   translate([r * $tile, 0, 0]) union() {
     translate(points[0]) rot(180 - ea) back($tile) endCapStraight(includeRail=false);
@@ -176,10 +204,17 @@ module monorailStraight(l) {
   }
 }
 
-if (Angle == 0)
-  monorailStraight(l=Length);
-else
-  monorailCurve(Radius, sa=0, ea=UseLengthForCurveAngle ? asin(Length / Radius) : Angle);
+if (Type == "rail") {
+  if (Angle == 0)
+    monorailStraight(l=Length);
+  else
+    monorailCurve(Radius, sa=0, ea=UseLengthForCurveAngle ? asin(Length / Radius) : Angle);
+} else if (Type == "studs") {
+  rotate([0, -90, 0]) studInsert();
+} else if (Type == "antistuds") {
+  rotate([180, 0, 180]) antiStudInsert();
+}
+
 
 // endCapStraight();
 // translate([28.75, -232, -5.75]) rotate([0, 0, 90]) import("straight.stl");

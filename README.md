@@ -8,18 +8,21 @@ but these are the original tracks you can replicate
 
 As an overview, or why it's worth a try: They print rapidly on modern printers, and cost barely anything.
 
-| Name                  | Material Cost | Print Time |
-| --------------------- | ------------- | ---------- |
-| C15                   | ~10ct         | 45m        |
-| C7                    | ~5ct          | 15m        |
-| S25                   | ~12ct         | 1h         |
-| S10                   | ~5ct          | 15m        |
-| S5                    | ~5ct          | 15m        |
-| Classic R28 90° Curve | ~25ct         | 2h         |
-| Classic R28 45° Curve | ~12ct         | 1h         |
-| Classic L32 Straight  | ~20ct         | 1.5h       |
-| Classic L16 Straight  | ~10ct         | 45m        |
-| Classic L8 Straight   | ~5ct          | 15m        |
+| Preset                        | Cost  | Time | Image                                                                            |
+| ----------------------------- | ----- | ---- | -------------------------------------------------------------------------------- |
+| C15                           | ~10ct | 45m  | ![C15](./assets/generated/C15.png)                                               |
+| C7                            | ~5ct  | 15m  | ![C7](./assets/generated/C7.png)                                                 |
+| S25                           | ~12ct | 1h   | ![S25](./assets/generated/S25.png)                                               |
+| S10                           | ~5ct  | 15m  | ![S10](./assets/generated/S10.png)                                               |
+| S5                            | ~5ct  | 15m  | ![S5](./assets/generated/S5.png)                                                 |
+| S4                            | ~5ct  | 15m  | ![S4](./assets/generated/S4.png)                                                 |
+| Classic Full Curve (R28 90°)  | ~25ct | 2h   | ![Classic Full Curve](./assets/generated/Classic%20Full%20Curve.png)             |
+| Classic Half Curve (R28 45°)  | ~12ct | 1h   | ![Classic Half Curve](./assets/generated/Classic%20Half%20Curve.png)             |
+| Classic Full Straight (L32)   | ~20ct | 1.5h | ![Classic Full Straight](./assets/generated/Classic%20Full%20Straight.png)       |
+| Classic Half Straight (L16)   | ~10ct | 45m  | ![Classic Half Straight](./assets/generated/Classic%20Half%20Straight.png)       |
+| Classic Quarter Straight (L8) | ~5ct  | 15m  | ![Classic Quarter Straight](./assets/generated/Classic%20Quarter%20Straight.png) |
+
+You can also generate your own custom rails with any length, radius or angle.
 
 Todo: ramps, switches, train assembly
 
@@ -62,7 +65,7 @@ How it fits
 - An s-curve with C15 moves over 20 studs, diagonals can be done with any length divisible by 5
 - An s-curve with C7 moves two studs, but diagonals require a full S25 to land cleanly again.
 
-![](./r25.svg)
+![](./assets/r25.svg)
 
 ## Printing
 
@@ -81,10 +84,10 @@ balance of speed and quality. A short rail will take about an hour to print.
 
 ### Filament
 
-| Color             | RAL Color  | Pantone | PLA Supplier | ABS Supplier |
-| ----------------- | ---------- | ------- | ------------ | ------------ |
-| Light Bluish Gray | `RAL 7040` |         | dasfilament  |              |
-| Light Gray        | `RAL 7005` |         |              |              |
+| Color             | RAL        | PLA Supplier | ABS Supplier |
+| ----------------- | ---------- | ------------ | ------------ |
+| Light Bluish Gray | `RAL 7040` | dasfilament  |              |
+| Light Gray        | `RAL 7005` |              |              |
 
 - None of these colors will be an exact match, just the texture of 3d printing it can make a huge difference, but usually fall close enough in the range.
 - The original rails will be in _Light Gray_, not _Light Bluish Gray_, but since I barely own any pre- 2004 color change bricks I chose to match my other bricks instead.
@@ -100,6 +103,6 @@ _Notes for newcomers:_
 
 In case you are new to 3D printing:
 
-- Most filaments (including PLA) release toxic gases when _burned_
+- Most filaments (including PLA) can release toxic gases when _burned_
 - FDM printing can cause fine particle emission
 - ABS when heated to normal printing temperatures can release styrene fumes
