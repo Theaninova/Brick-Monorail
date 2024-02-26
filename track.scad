@@ -2,12 +2,10 @@ include <BOSL2/std.scad>;
 include <BOSL2/beziers.scad>;
 
 /* [Print Settings] */
-// Some feature are generated with respect to the layer height
-LayerHeight = 0.2; // [0.1,0.13,0.2]
 // Mid-print stud inserts allowing the studs to be printed facing up seperately
-StudInserts = false;
+StudInserts = true;
 // Mid-print slot inserts eliminating the need for supports
-AntiStudInserts = false;
+AntiStudInserts = true;
 // Part to generate
 Type = "rail"; // [rail,studs,antistuds]
 
@@ -68,8 +66,12 @@ module antiStudInsert(carve=true, depth=$studHeight * 2, supportHeight=$LDU * 4,
   difference() {
     union() {
       cube([$tile * 2, $tile, depth + supportHeight], anchor=FRONT+BOTTOM);
-      translate([0, $tile, 0]) cube([$tile * 2 + supportWidth, supportWidth, depth + supportHeight], anchor=FRONT+BOTTOM);
-      translate([0, $tile / 2, 0]) cube([$tile * 2 + supportWidth, supportWidth, depth + supportHeight], anchor=FRONT+BOTTOM);
+      translate([0, $tile + supportWidth + (carve ? 0 : $LDU / 2), 0])
+        cube([
+          $tile * 2 + supportWidth + (carve ? 0 : $LDU),
+          supportWidth + $tile * 0.6 + (carve ? 0 : $LDU),
+          depth + supportHeight
+        ], anchor=BACK+BOTTOM);
     }
 
     if (carve) {
@@ -85,12 +87,17 @@ module antiStudInsert(carve=true, depth=$studHeight * 2, supportHeight=$LDU * 4,
   }
 }
 
-module studInsert(supportThickness = $LDU * 4) {
-  mirror_copy([0, 1, 0]) translate([0, $tile / 2, 0]) group() {
-    cube([supportThickness, $stud, $stud], anchor=RIGHT);
-    cyl(l=$studHeight, d=$stud, $fn=48, anchor=TOP, orient=LEFT);
-  }
-  translate([-supportThickness, 0, 0]) cube([supportThickness, $tile + $stud + $LDU, $stud], anchor=RIGHT);
+module studInsert(carve=true, supportThickness = $LDU * 4) {
+  mirror_copy([0, 1, 0])
+    translate([0, $tile / 2, 0])
+    cyl(l=$studHeight + $LDU / 2, d=$stud + $LDU / 2, $fn=48, anchor=TOP, orient=LEFT);
+  cube([supportThickness, $tile + $stud, $stud], anchor=RIGHT);
+  translate([-supportThickness, 0, $stud / 2])
+    cube([
+      supportThickness + (carve ? 0 : $LDU),
+      $tile + $stud + $LDU + (carve ? 0 : $LDU),
+      $stud + $LDU * 1.5 + (carve ? 0 : $LDU)
+    ], anchor=RIGHT+TOP);
 }
 
 module brickSlot(w=1, l=1, h=3) {
@@ -117,9 +124,10 @@ module endCapStraight(includeRail=true) {
       }
 
       if (StudInserts) {
-        mirror_copy([1, 0, 0]) translate([$width / 2, 0, 0]) studInsert();
+        mirror_copy([1, 0, 0]) translate([$width / 2, 0, 0]) studInsert(carve=false);
       }
       
+      mirror_copy([1, 0, 0]) translate([$tile, 0, $tile / 2 - $plate * 2]) cyl(d=$fillet, h=$tile, $fn=12, anchor=TOP);
       translate([0, -$tile, $tile / 2 - $plate * 2]) cube([$tile * 2, $tile, $plate], anchor=FRONT+TOP);
       translate([0, -$tile, $tile / 2 - $plate * 2]) antiStudInsert(carve=false);
 

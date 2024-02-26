@@ -82,6 +82,19 @@ To be compatible with standard bricks, the following print settings are strongly
 My prints were done on a modified SecKit SK-Go2 running Klipper, with 10k acceleration and 150mm/s print speed for a good
 balance of speed and quality. A short rail will take about an hour to print.
 
+### Inserts
+
+_This is optional and increases difficulty and print time, but I highly recommened it._
+
+Studs and anti-studs print rather inconsistently at the orientation of the rail.
+To combat that, I added the option to pre-print stud and anti-stud inserts at perfect orientation and insert them mid-print.
+Because the layer is immediately covered up, the plastic will adhere like it would if it was printed in one go.
+
+This also allows you to pre-select the best inserts without having to print a full rail only to have one bad stud.
+
+- In Cura, insert a "Pause at layer" at the last layer where the insert spots are not covered yet.
+- If you use Klipper, use "Search and replace" with `; Layer 32` to `; Layer 32\nPAUSE`.
+
 ### Filament
 
 | Color             | RAL        | PLA Supplier | ABS Supplier |
