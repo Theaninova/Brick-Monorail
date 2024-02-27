@@ -283,7 +283,16 @@ module monorailSwitch() {
     }
     translate([0, $tile * SwitchFrontLength, $tile / 2]) cube([$tile * 20, $teethTolerance, $plate], anchor=BOTTOM);
     translate([0, $tile * (SwitchFrontLength + midLength), $tile / 2]) cube([$tile * 20, $teethTolerance, $plate], anchor=BOTTOM);
-    translate([0, $tile * SwitchFrontLength, $tile / 2]) cube([$tile * 20, midLength * $tile, $LDU], anchor=BOTTOM+FRONT);
+    difference() {
+      translate([0, $tile * SwitchFrontLength, $tile / 2]) cube([$tile * 20, midLength * $tile, $LDU], anchor=BOTTOM+FRONT);
+
+      for (i = [0:SwitchSupportCount - 1]) {
+        y = SwitchFrontLength + 1 + ((midLength - 2) / (SwitchSupportCount - 1) * i);
+        wl = 2 * $tile + travelDistance + $teethRailWidth;
+        wr = (1 - cos(asin((y - SwitchFrontLength) / Radius))) * Radius * $tile + travelDistance + 2 * $tile + $teethRailWidth;
+        translate([-wl, $tile * y, 0]) cube([wl + wr, strength, $tile * 2], anchor=LEFT);
+      }
+    }
     
     // Mechanism
     curveAngleMax = asin((midLength + 0.5 + travelDistance) / Radius);
@@ -295,27 +304,40 @@ module monorailSwitch() {
 
     for (i = [0:SwitchSupportCount - 1]) {
       y = SwitchFrontLength + 1 + ((midLength - 2) / (SwitchSupportCount - 1) * i);
-      wl = 2 * $tile + travelDistance;
-      wr = (1 - cos(asin((y - SwitchFrontLength) / Radius))) * Radius * $tile + travelDistance + 2 * $tile;
-      translate([-wl, $tile * y, 0]) cube([wl + wr, strength, $tile], anchor=FRONT+LEFT);
+      wl = 2 * $tile + travelDistance + $teethRailWidth;
+      wr = (1 - cos(asin((y - SwitchFrontLength) / Radius))) * Radius * $tile + travelDistance + 2 * $tile + $teethRailWidth;
+      translate([-wl, $tile * y, 0]) group() {
+        cube([wl + wr, strength + $LDU * 2, $tile], anchor=LEFT);
+        rotate([45, 0, 0]) cube([wl + wr, strength * 2 + $LDU * 2, strength * 2 + $LDU * 2], anchor=LEFT);
+      };
     }
 
     translate([0, $tile * (SwitchFrontLength + midLength / 2), -$tile / 2])
       cyl(d=$tile * (4 + travelDistance / 2) + $LDU * 2, h=$tile / 2, chamfer=$LDU * 4, $fn=64, anchor=BOTTOM);
-
   }
 
+  if (SwitchFrontLength > 2) {
+    translate([0, $tile * 2, 0]) cube([$tile * 4, $tile * 2, $tile], anchor=FRONT);
+    translate([0, $tile * 2, $tile / 2])
+      cube([$teethRailWidth, (SwitchFrontLength - 2) * $tile - $teethWidth / 2, $plate], anchor=BOTTOM+FRONT);
+    translate([0, $tile * 2, $tile / 2]) group() {
+      for (i = [0:($teeth * (SwitchFrontLength - 2) - 1)]) {
+        translate([0, i * $teethWidth, 0]) tooth();
+      }
+    };
+  }
 
-  /*difference() {
-    union() {
-      cube([travelDistance, strength, $tile], anchor=CENTER);
-      cube([4 * $tile + 2 * travelDistance, strength, $tile], anchor=CENTER);
-      rotate([45, 0, 0]) cube([4 * $tile + 2 * travelDistance, strength * 2, strength * 2], anchor=CENTER);
+  union() {
+    for (i = [0:SwitchSupportCount - 1]) {
+      y = SwitchFrontLength + 1 + ((midLength - 2) / (SwitchSupportCount - 1) * i);
+      wl = 2 * $tile + travelDistance + $teethRailWidth;
+      wr = (1 - cos(asin((y - SwitchFrontLength) / Radius))) * Radius * $tile + travelDistance;
+      translate([-wl + $LDU, $tile * y, 0]) group() {
+        cube([wl + wr, strength, $tile], anchor=LEFT);
+        rotate([45, 0, 0]) cube([wl + wr, strength * 2, strength * 2], anchor=LEFT);
+      };
     }
-  }*/
-
-  //cube([4 * $LDU, 120, 4 * $LDU]);
-  //cyl(d=10, h=$LDU * 4, $fn=128, anchor=BOTTOM);
+  }
 }
 
 if (Type == "rail") {
