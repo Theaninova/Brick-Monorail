@@ -7,15 +7,17 @@ StudInserts = true;
 // Mid-print slot inserts eliminating the need for supports
 AntiStudInserts = true;
 // Part to generate
-Type = "rail"; // [rail,studs,antistuds]
+Type = "switch"; // [rail,switch,studs,antistuds]
 
 /* [Model Settings] */
 Length = 8; // [4:1:56]
-// Useful when working with Pythagorean Triples
-UseLengthForCurveAngle = true;
 Radius = 25; // [4:1:36]
 // The angle the track takes
 Angle = 0.0;
+// Useful when working with Pythagorean Triples
+AngleIsLength = true;
+SwitchSupportCount = 3;
+SwitchFrontLength = 4;
 
 module __CustomizerLimit__() {}
 
@@ -165,46 +167,62 @@ module endCapStraight(includeRail=true) {
   }
 }
 
-module monorailCurve(r=28, sa, ea, p1) {
-  $n_teeth = round((PI * r * $tile) / (295 / abs(-sa - ea)));
+module monorailCurve(startCaps=true, endCaps=true, guiderail=true, widthAddRight=0, widthAddLeft=0) {
+  sa = 0;
+  ea = AngleIsLength ? asin(Angle / Radius) : Angle;
+  $n_teeth = round((PI * Radius * $tile) / (295 / abs(-sa - ea)));
   angle = [180 - ea, 180 + sa];
-  points = arc($n_teeth, r=(r * $tile), angle=angle);
+  points = arc($n_teeth, r=(Radius * $tile), angle=angle);
 
-  echo(points[0] / $tile);
-  echo(points[len(points) - 1] / $tile);
-
-  translate([r * $tile, 0, 0]) union() {
-    translate(points[0]) rot(180 - ea) back($tile) endCapStraight(includeRail=false);
-    translate(points[len(points) - 1]) rot(sa) back($tile) endCapStraight(includeRail=false);
+  translate([Radius * $tile, 0, 0]) union() {
+    if (endCaps) {
+      translate(points[0]) rot(180 - ea) back($tile) endCapStraight(includeRail=false);
+    }
+    if (startCaps) {
+      translate(points[len(points) - 1]) rot(sa) back($tile) endCapStraight(includeRail=false);
+    }
     difference() {
-      path_sweep([
+      path_sweep(guiderail ? [
         [-$teethRailWidth / 2, $tile / 2 + $plate],
         [-$teethRailWidth / 2, $tile / 2],
-        [-2 * $tile, $tile / 2],
-        [-2 * $tile, -$tile / 2],
-        [2 * $tile, -$tile / 2],
-        [2 * $tile, $tile / 2],
+        [-(2 + widthAddLeft) * $tile, $tile / 2],
+        [-(2 + widthAddLeft) * $tile, -$tile / 2],
+        [(2 + widthAddRight) * $tile, -$tile / 2],
+        [(2 + widthAddRight) * $tile, $tile / 2],
         [$teethRailWidth / 2, $tile / 2],
         [$teethRailWidth / 2, $tile / 2 + $plate],
+      ] : [
+        [-(2 + widthAddLeft) * $tile, $tile / 2],
+        [-(2 + widthAddLeft) * $tile, -$tile / 2],
+        [(2 + widthAddRight) * $tile, -$tile / 2],
+        [(2 + widthAddRight) * $tile, $tile / 2],
       ], points);
-      translate(points[0]) rot(-ea) cube([$tile * 6, $tile * 4, $tile], anchor=CENTER);
-      translate(points[len(points) - 1]) rot(sa) cube([$tile * 6, $tile * 4, $tile], anchor=CENTER);
-      translate(points[0]) rot(-ea) translate([0, -$teethWidth/2, 0]) cube([$tile * 6, $tile * 4, $tile], anchor=BOTTOM+FRONT);
-      translate(points[len(points) - 1]) rot(sa) translate([0, $teethWidth/2, 0]) cube([$tile * 6, $tile * 4, $tile], anchor=BOTTOM+BACK);
+      if (endCaps) {
+        translate(points[0]) rot(-ea) cube([$tile * 8, $tile * 4, $tile], anchor=CENTER);
+        translate(points[0]) rot(-ea) translate([0, -$teethWidth/2, 0]) cube([$tile * 6, $tile * 4, $tile], anchor=BOTTOM+FRONT);
+      }
+      if (startCaps) {
+        translate(points[len(points) - 1]) rot(sa) cube([$tile * 8, $tile * 4, $tile], anchor=CENTER);
+        translate(points[len(points) - 1]) rot(sa) translate([0, $teethWidth / 2, 0]) cube([$tile * 6, $tile * 4, $tile], anchor=BOTTOM+BACK);
+      }
     }
-    translate([0, 0, $tile / 2]) arc_copies($n_teeth + 1, r=(r * $tile), sa=angle[0], ea=angle[1] - (180 * ($teethWidth / (PI * r * $tile)))) tooth();
+    if (guiderail) {
+      translate([0, 0, $tile / 2])
+        arc_copies($n_teeth + 1, r=(Radius * $tile), sa=angle[0], ea=angle[1] - (180 * ($teethWidth / (PI * Radius * $tile))))
+        tooth();
+    }
   }
 }
 
-module monorailStraight(l) {
+module monorailStraight() {
   union() {
     translate([0, $tile, 0]) endCapStraight();
-    translate([0, (l - 1) * $tile, 0]) rotate(180) endCapStraight();
-    if (l > 4) {
-      translate([0, $tile * 2, 0]) cube([4 * $tile, (l - 4) * $tile, $tile], anchor=FRONT);
-      translate([0, $tile * 2, $tile / 2]) cube([$teethRailWidth, (l - 4) * $tile, $plate], anchor=BOTTOM+FRONT);
+    translate([0, (Length - 1) * $tile, 0]) rotate(180) endCapStraight();
+    if (Length > 4) {
+      translate([0, $tile * 2, 0]) cube([4 * $tile, (Length - 4) * $tile, $tile], anchor=FRONT);
+      translate([0, $tile * 2, $tile / 2]) cube([$teethRailWidth, (Length - 4) * $tile, $plate], anchor=BOTTOM+FRONT);
       translate([0, $tile * 2, $tile / 2]) group() {
-        for (i = [0:($teeth * (l - 4) - 1)]) {
+        for (i = [0:($teeth * (Length - 4) - 1)]) {
           translate([0, i * $teethWidth, 0]) tooth();
         }
       };
@@ -212,15 +230,106 @@ module monorailStraight(l) {
   }
 }
 
+module guiderailChainLink() {
+  difference() {
+    tooth();
+    translate([0, $teethWidth / 2, 0]) cyl(d=$LDU * 4, h=$plate, anchor=BOTTOM, $fn=32);
+  }
+  translate([0, $teethWidth / 2 * 3, 0]) cyl(d=$LDU * 3, h=$plate, anchor=BOTTOM, $fn=32);
+  translate([0, $teethWidth / 2, 0]) cube([$teethRailWidth, $teethWidth, $plate], anchor=BOTTOM+FRONT);
+}
+
+module switchLeverSlot(travelDistance) {
+  leverHeight = $plate;
+  slotAngle = asin(leverHeight / (travelDistance * $tile));
+  translate([0, $tile / 2, $tile / 2 + $plate])
+    cube([$teethRailWidth / 2, travelDistance * $tile, $plate], anchor=TOP+FRONT);
+}
+
+module monorailSwitch() {
+  travelDistance = 2 + ($teethRailWidth / $tile);
+  strength = 4 * $LDU;
+  tolerance = $LDU;
+
+  midLength = ceil(cos(asin(1 - 3 / Radius)) * Radius);
+
+  difference() {
+    union() {
+      translate([0, $tile, 0]) endCapStraight();
+      translate([0, $tile * (Length - 1), 0]) rotate([0, 0, 180]) endCapStraight();
+      translate([0, $tile * SwitchFrontLength, 0]) cube([$tile * 3, $tile * midLength, $tile], anchor=FRONT+RIGHT);
+      translate([0, $tile * SwitchFrontLength, 0]) cube([$tile * 4, $tile * midLength, $tile], anchor=FRONT+CENTER);
+      difference() {
+        translate([0, $tile * SwitchFrontLength, 0]) monorailCurve(startCaps=false, widthAddRight=1);
+        translate([0, $tile * Length, 0]) cube([$tile * 4 + $plate * 2, $tile * 2, $tile], anchor=BACK);
+      }
+
+      // straight teeth
+      translate([-$tile * travelDistance, $tile * SwitchFrontLength, $tile / 2]) group() {
+        cube([$teethRailWidth, $tile * midLength, $plate], anchor=BOTTOM+FRONT);
+        for (i = [0:($teeth * midLength - 1)]) {
+          translate([0, i * $teethWidth, 0]) tooth();
+        }
+      }
+
+      translate([0, $tile * (midLength + SwitchFrontLength), $tile / 2]) group() {
+        segmentLength = Length - midLength - SwitchFrontLength - 2;
+        cube([$teethRailWidth, $tile * segmentLength, $plate], anchor=BOTTOM+FRONT);
+        cube([$tile * 4, $tile * segmentLength, $tile], anchor=TOP+FRONT);
+        for (i = [0:($teeth * segmentLength - 1)]) {
+          translate([0, i * $teethWidth, 0]) tooth();
+        }
+      }
+    }
+    translate([0, $tile * SwitchFrontLength, $tile / 2]) cube([$tile * 20, $teethTolerance, $plate], anchor=BOTTOM);
+    translate([0, $tile * (SwitchFrontLength + midLength), $tile / 2]) cube([$tile * 20, $teethTolerance, $plate], anchor=BOTTOM);
+    translate([0, $tile * SwitchFrontLength, $tile / 2]) cube([$tile * 20, midLength * $tile, $LDU], anchor=BOTTOM+FRONT);
+    
+    // Mechanism
+    curveAngleMax = asin((midLength + 0.5 + travelDistance) / Radius);
+    curveAngleMin = asin(midLength / Radius);
+    curveAngle = curveAngleMin + (curveAngleMax - curveAngleMin) / 2;
+    curveX = (1 - cos(curveAngleMin)) * Radius * $tile;
+    translate([0, $tile * (SwitchFrontLength + midLength), 0]) switchLeverSlot(travelDistance);
+    translate([curveX - $LDU, $tile * (SwitchFrontLength + midLength), 0]) rotate([0, 0, -curveAngle]) switchLeverSlot(travelDistance);
+
+    for (i = [0:SwitchSupportCount - 1]) {
+      y = SwitchFrontLength + 1 + ((midLength - 2) / (SwitchSupportCount - 1) * i);
+      wl = 2 * $tile + travelDistance;
+      wr = (1 - cos(asin((y - SwitchFrontLength) / Radius))) * Radius * $tile + travelDistance + 2 * $tile;
+      translate([-wl, $tile * y, 0]) cube([wl + wr, strength, $tile], anchor=FRONT+LEFT);
+    }
+
+    translate([0, $tile * (SwitchFrontLength + midLength / 2), -$tile / 2])
+      cyl(d=$tile * (4 + travelDistance / 2) + $LDU * 2, h=$tile / 2, chamfer=$LDU * 4, $fn=64, anchor=BOTTOM);
+
+  }
+
+
+  /*difference() {
+    union() {
+      cube([travelDistance, strength, $tile], anchor=CENTER);
+      cube([4 * $tile + 2 * travelDistance, strength, $tile], anchor=CENTER);
+      rotate([45, 0, 0]) cube([4 * $tile + 2 * travelDistance, strength * 2, strength * 2], anchor=CENTER);
+    }
+  }*/
+
+  //cube([4 * $LDU, 120, 4 * $LDU]);
+  //cyl(d=10, h=$LDU * 4, $fn=128, anchor=BOTTOM);
+}
+
 if (Type == "rail") {
   if (Angle == 0)
-    monorailStraight(l=Length);
+    monorailStraight();
   else
-    monorailCurve(Radius, sa=0, ea=UseLengthForCurveAngle ? asin(Length / Radius) : Angle);
+    monorailCurve();
 } else if (Type == "studs") {
   rotate([0, -90, 0]) studInsert();
 } else if (Type == "antistuds") {
   rotate([180, 0, 180]) antiStudInsert();
+} else if (Type == "switch") {
+  //guiderailChainLink();
+  monorailSwitch();
 }
 
 

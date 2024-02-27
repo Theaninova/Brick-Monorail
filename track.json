@@ -1,88 +1,74 @@
 {
-  "fileFormatVersion": "1",
-  "parameterSets": {
-    "C15": {
-      "Angle": 1,
-      "Length": 15,
-      "Radius": 25,
-      "UseLengthForCurveAngle": true,
-      "Support": false
-    },
-    "C7": {
-      "Angle": 1,
-      "Length": 7,
-      "Radius": 25,
-      "UseLengthForCurveAngle": true,
-      "Support": false
-    },
-    "S25": {
-      "Angle": 0,
-      "Length": 25,
-      "Radius": 25,
-      "UseLengthForCurveAngle": true,
-      "Support": false
-    },
-    "S10": {
-      "Angle": 0,
-      "Length": 10,
-      "Radius": 25,
-      "UseLengthForCurveAngle": true,
-      "Support": false
-    },
-    "S5": {
-      "Angle": 0,
-      "Length": 5,
-      "Radius": 25,
-      "UseLengthForCurveAngle": true,
-      "Support": false
-    },
-    "S4": {
-      "Angle": 0,
-      "Length": 4,
-      "Radius": 25,
-      "UseLengthForCurveAngle": true,
-      "Support": false
-    },
-    "Classic Full Straight": {
-      "Angle": 0,
-      "Length": 32,
-      "Radius": 28,
-      "UseLengthForCurveAngle": false,
-      "Support": false
-    },
-    "Classic Half Straight": {
-      "Angle": 0,
-      "Length": 16,
-      "Radius": 28,
-      "UseLengthForCurveAngle": false,
-      "Support": false
-    },
-    "Classic Quarter Straight": {
-      "Angle": 0,
-      "Length": 8,
-      "Radius": 28,
-      "UseLengthForCurveAngle": false,
-      "Support": false
-    },
-    "Classic Full Curve": {
-      "Angle": 90,
-      "Length": 8,
-      "Radius": 28,
-      "UseLengthForCurveAngle": false,
-      "Support": false
-    },
-    "Classic Half Curve": {
-      "Angle": 45,
-      "Length": 8,
-      "Radius": 28,
-      "UseLengthForCurveAngle": false,
-      "Support": false
-    },
-    "StudInsert": {
-      "Type": "studs"
-    },
-    "AntiStudInsert": {
-      "Type": "antistuds"
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "C15": {
+            "Angle": "1",
+            "Length": "15",
+            "Radius": "25"
+        },
+        "C7": {
+            "Angle": "1",
+            "Length": "7",
+            "Radius": "25"
+        },
+        "S25": {
+            "Angle": "0",
+            "Length": "25",
+            "Radius": "25"
+        },
+        "S10": {
+            "Angle": "0",
+            "Length": "10",
+            "Radius": "25"
+        },
+        "S5": {
+            "Angle": "0",
+            "Length": "5",
+            "Radius": "25"
+        },
+        "S4": {
+            "Angle": "0",
+            "Length": "4",
+            "Radius": "25"
+        },
+        "Classic Full Straight": {
+            "Angle": "0",
+            "Length": "32",
+            "Radius": "28"
+        },
+        "Classic Half Straight": {
+            "Angle": "0",
+            "Length": "16",
+            "Radius": "28"
+        },
+        "Classic Quarter Straight": {
+            "Angle": "0",
+            "Length": "8",
+            "Radius": "28"
+        },
+        "Classic Full Curve": {
+            "Angle": "90",
+            "Length": "8",
+            "Radius": "28"
+        },
+        "Classic Half Curve": {
+            "Angle": "45",
+            "Length": "8",
+            "Radius": "28"
+        },
+        "StudInsert": {
+            "Type": "studs"
+        },
+        "AntiStudInsert": {
+            "Type": "antistuds"
+        },
+        "New set 1": {
+            "Angle": "15",
+            "AntiStudInserts": "false",
+            "Length": "20",
+            "Radius": "25",
+            "StudInserts": "false",
+            "Type": "switch"
+        }
     }
-  }
 }
