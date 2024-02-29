@@ -1,19 +1,19 @@
 include <BOSL2/std.scad>;
-include <BOSL2/beziers.scad>;
 
 /* [Print Settings] */
+Tolerance = 0.2;
 // Mid-print stud inserts allowing the studs to be printed facing up seperately
 StudInserts = true;
 // Mid-print slot inserts eliminating the need for supports
 AntiStudInserts = true;
 // Part to generate
-Type = "switch"; // [rail,switch,studs,antistuds]
+Type = "rail"; // [rail,switch,studs,antistuds]
 
 /* [Model Settings] */
-Length = 8; // [4:1:56]
+Length = 20; // [4:1:56]
 Radius = 25; // [4:1:36]
 // The angle the track takes
-Angle = 0.0;
+Angle = 15;
 // Useful when working with Pythagorean Triples
 AngleIsLength = true;
 SwitchSupportCount = 3;
@@ -44,6 +44,7 @@ $teethTolerance = $LDU;
 $teethRailWidth = 10 * $LDU;
 $teethWidth = $tile / $teeth;
 $teethDepth = 3 * $LDU;
+
 
 module tooth() {
   $height = $teethWidth - $teethTolerance;
@@ -284,7 +285,7 @@ module monorailSwitch() {
     translate([0, $tile * SwitchFrontLength, $tile / 2]) cube([$tile * 20, $teethTolerance, $plate], anchor=BOTTOM);
     translate([0, $tile * (SwitchFrontLength + midLength), $tile / 2]) cube([$tile * 20, $teethTolerance, $plate], anchor=BOTTOM);
     difference() {
-      translate([0, $tile * SwitchFrontLength, $tile / 2]) cube([$tile * 20, midLength * $tile, $LDU], anchor=BOTTOM+FRONT);
+      translate([0, $tile * SwitchFrontLength, $tile / 2]) cube([$tile * 20, midLength * $tile, Tolerance], anchor=BOTTOM+FRONT);
 
       for (i = [0:SwitchSupportCount - 1]) {
         y = SwitchFrontLength + 1 + ((midLength - 2) / (SwitchSupportCount - 1) * i);
@@ -307,13 +308,13 @@ module monorailSwitch() {
       wl = 2 * $tile + travelDistance + $teethRailWidth;
       wr = (1 - cos(asin((y - SwitchFrontLength) / Radius))) * Radius * $tile + travelDistance + 2 * $tile + $teethRailWidth;
       translate([-wl, $tile * y, 0]) group() {
-        cube([wl + wr, strength + $LDU * 2, $tile], anchor=LEFT);
-        rotate([45, 0, 0]) cube([wl + wr, strength * 2 + $LDU * 2, strength * 2 + $LDU * 2], anchor=LEFT);
+        cube([wl + wr, strength + Tolerance * 2, $tile], anchor=LEFT);
+        rotate([45, 0, 0]) cube([wl + wr, strength * 2 + Tolerance * 2, strength * 2 + Tolerance * 2], anchor=LEFT);
       };
     }
 
-    translate([0, $tile * (SwitchFrontLength + midLength / 2), -$tile / 2])
-      cyl(d=$tile * (4 + travelDistance / 2) + $LDU * 2, h=$tile / 2, chamfer=$LDU * 4, $fn=64, anchor=BOTTOM);
+    //translate([0, $tile * (SwitchFrontLength + midLength / 2), -$tile / 2])
+    //  cyl(d=$tile * (4 + travelDistance / 2) + $LDU * 2, h=$tile / 2, chamfer=$LDU * 4, $fn=64, anchor=BOTTOM);
   }
 
   if (SwitchFrontLength > 2) {
@@ -351,7 +352,10 @@ if (Type == "rail") {
   rotate([180, 0, 180]) antiStudInsert();
 } else if (Type == "switch") {
   //guiderailChainLink();
-  monorailSwitch();
+  intersection() {
+    monorailSwitch();
+    translate([0, 55, 0]) cube([100, 60, 100], FRONT);
+  }
 }
 
 
