@@ -1,7 +1,7 @@
 include <BOSL2/std.scad>;
 
 /* [Print Settings] */
-Tolerance = 0.2;
+Tolerance = 0.4;
 // Mid-print stud inserts allowing the studs to be printed facing up seperately
 StudInserts = true;
 // Mid-print slot inserts eliminating the need for supports
@@ -69,10 +69,10 @@ module antiStudInsert(carve=true, depth=$studHeight * 2, supportHeight=$LDU * 4,
   difference() {
     union() {
       cube([$tile * 2, $tile, depth + supportHeight], anchor=FRONT+BOTTOM);
-      translate([0, $tile + supportWidth + (carve ? 0 : $LDU / 2), 0])
+      translate([0, $tile + supportWidth + (carve ? 0 : Tolerance), 0])
         cube([
-          $tile * 2 + supportWidth + (carve ? 0 : $LDU),
-          supportWidth + $tile * 0.6 + (carve ? 0 : $LDU),
+          $tile * 2 + supportWidth + (carve ? 0 : Tolerance * 2),
+          supportWidth + $tile * 0.6 + (carve ? 0 : Tolerance * 2),
           depth + supportHeight
         ], anchor=BACK+BOTTOM);
     }
@@ -97,9 +97,9 @@ module studInsert(carve=true, supportThickness = $LDU * 4) {
   cube([supportThickness, $tile + $stud, $stud], anchor=RIGHT);
   translate([-supportThickness, 0, $stud / 2])
     cube([
-      supportThickness + (carve ? 0 : $LDU),
-      $tile + $stud + $LDU + (carve ? 0 : $LDU),
-      $stud + $LDU * 1.5 + (carve ? 0 : $LDU)
+      supportThickness + (carve ? 0 : Tolerance * 2),
+      $tile + $stud + $LDU + (carve ? 0 : Tolerance * 2),
+      $stud + $LDU * 1.5 + (carve ? 0 : Tolerance * 2)
     ], anchor=RIGHT+TOP);
 }
 
@@ -341,6 +341,7 @@ module monorailSwitch() {
   }
 }
 
+union() {
 if (Type == "rail") {
   if (Angle == 0)
     monorailStraight();
@@ -356,6 +357,7 @@ if (Type == "rail") {
     monorailSwitch();
     translate([0, 55, 0]) cube([100, 60, 100], FRONT);
   }
+}
 }
 
 
