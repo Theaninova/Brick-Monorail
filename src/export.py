@@ -7,13 +7,14 @@ for name, params in presets.presets:
     part = rail(params)
     c = part.val().BoundingBox().center
     part = part.translate(c * -1)
-    part = part.rotate((0, 0, 0), (1, 0, 0), -90)
     dir = os.path.dirname(f"{name}.x")
     os.makedirs(f"STEPs/{dir}", exist_ok=True)
     os.makedirs(f"STLs/{dir}", exist_ok=True)
     os.makedirs(f"assets/{dir}", exist_ok=True)
     cq.exporters.export(part, f"STEPs/{name}.step")
     cq.exporters.export(part, f"STLs/{name}.stl")
+
+    part = part.rotate((0, 0, 0), (1, 0, 0), -90)
     cq.exporters.export(
         part,
         f"assets/{name}.svg",

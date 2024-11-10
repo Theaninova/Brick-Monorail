@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import math
 import units as u
 
 
@@ -32,8 +33,8 @@ class Params:
     standoff_padding = u.ldu(6)
     standoff_studs = (1, 2)
 
-    teeth_height = u.ldu(7)
-    teeth_width = u.ldu(2)
-    teeth_spacing = u.ldu(1)
-    teeth_inner_width = u.ldu(10)
-    teeth_outer_width = u.ldu(14)
+    teeth_height = u.ldu(8)
+    teeth_width = math.pi / 2 * 0.75
+    teeth_spacing = math.pi / 2 * 0.25
+    teeth_inner_width = u.ldu(9)
+    teeth_outer_width = u.ldu(15.5)
