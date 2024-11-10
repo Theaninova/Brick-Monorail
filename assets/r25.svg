@@ -1,6 +1,6 @@
 <svg version="1.1"
-     viewBox="0 0 100 50"
-     width="1000" height="500"
+     viewBox="0 0 100 80"
+     width="1000" height="800"
      xmlns="http://www.w3.org/2000/svg">
   <defs>
     <pattern id="smallGrid" width="1" height="1" patternUnits="userSpaceOnUse">
@@ -35,6 +35,9 @@
   <text x="1" y="32" font-size="2" dominant-baseline="middle" fill="white">S5</text>
   <path d="M10 38 l4 0" stroke-width="4" stroke="#00fa" fill="none" />
   <text x="1" y="38" font-size="2" dominant-baseline="middle" fill="white">S4</text>
+  <path d="M10 44 a 25 25 0 0 0 15 -5" stroke-width="4" stroke="#ff0a" fill="none" />
+  <path d="M10 44 l20 0" stroke-width="4" stroke="#ff0a" fill="none" />
+  <text x="1" y="44" font-size="2" dominant-baseline="middle" fill="white">P15</text>
 
   <path d="M70 8 a 25 25 0 0 1 7 1" stroke-width="4" stroke="#f007" fill="none" />
   <path d="M84 10 a 25 25 0 0 1 -7 -1" stroke-width="4" stroke="#f00a" fill="none" />
