@@ -5,14 +5,14 @@ Orders of magnitude cheaper than buying used.
 
 You can also generate your own custom rails with any radius, length, or if you feel bold, even splines.
 
-| Preset | Material Cost | Time | Image                                                  |
-| ------ | ------------- | ---- | ------------------------------------------------------ |
-| C15    | tbd           | tbd  | <img alt="C15" src="./assets/solid/C15.svg" width=150> |
-| C7     | tbd           | tbd  | <img alt="C7" src="./assets/solid/C7.svg" width=150>   |
-| S25    | tbd           | tbd  | (todo)                                                 |
-| S10    | tbd           | tbd  | <img alt="S10" src="./assets/solid/S10.svg" width=150> |
-| S5     | ~12ct         | ~25m | <img alt="S5" src="./assets/solid/S5.svg" width=150>   |
-| S4     | tbd           | tbd  | <img alt="S4" src="./assets/solid/S4.svg" width=150>   |
+| Preset | Material Cost | Time | Solid                                                                                      | Classic                                                                                        |
+| ------ | ------------- | ---- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| C15    | tbd           | tbd  | <a href="./STEPs/solid/C15.step" download><img src="./assets/solid/C15.svg" width=150></a> | <a href="./STEPs/classic/C15.step" download><img src="./assets/classic/C15.svg" width=150></a> |
+| C7     | tbd           | tbd  | <a href="./STEPs/solid/C7.step" download><img src="./assets/solid/C7.svg" width=150></a>   | <a href="./STEPs/classic/C7.step" download><img src="./assets/classic/C7.svg" width=150></a>   |
+| S25    | tbd           | tbd  | (todo)                                                                                     | (todo)                                                                                         |
+| S10    | tbd           | tbd  | <a href="./STEPs/solid/S10.step" download><img src="./assets/solid/S10.svg" width=150></a> | <a href="./STEPs/classic/S10.step" download><img src="./assets/classic/S10.svg" width=150></a> |
+| S5     | ~12ct         | ~25m | <a href="./STEPs/solid/S5.step" download><img src="./assets/solid/S5.svg" width=150></a>   | <a href="./STEPs/classic/S5.step" download><img src="./assets/classic/S5.svg" width=150></a>   |
+| S4     | tbd           | tbd  | <a href="./STEPs/solid/C15.step" download><img src="./assets/solid/S4.svg" width=150></a>  | (broken)                                                                                       |
 
 Todo: ramps, switches, train assembly
 
@@ -71,14 +71,17 @@ How it fits
 
 To be compatible with standard bricks, the following print settings are strongly advised
 
-- Nozzle: **0.4**, this is equivalent to 1 LDU.
-- Layer height: **0.2**, less than that is barely better and just causes more problems than it solves.
-  If you want to go lower, it's advisable to use heights that satisfy `0.4 % h == 0` such as 0.1.
-  - **Make sure your initial layer height is either 0.2 or 0.4!**
-- Supports: **none**, unless you use the classic option
-- **Make sure you have your flow and z offset calibrated perfectly.**
-  These parts have very small tolerances, it is absolutely vital you have this right
-  or you will end up with parts that have insufficient or too high clamping force.
+| Setting              | Value      | Comment                                                                                                                                                                       |
+| -------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nozzle               | 0.4        | this is equivalent to 1 LDU                                                                                                                                                   |
+| Layer height         | 0.2        | less than that is barely better and just causes more problems than it solves. If you want to go lower, it's advisable to use heights that satisfy `0.4 % h == 0` such as 0.1. |
+| Initial layer height | 0.2 or 0.4 |                                                                                                                                                                               |
+| Supports             | none       | classic will still need supports                                                                                                                                              |
+| Ironing              | top layers | this is optional, but makes a massive difference                                                                                                                              |
+
+**Make sure you have your flow and z offset calibrated perfectly.**
+These parts have very small tolerances, it is absolutely vital you have this right
+or you will end up with parts that have insufficient or too high clamping force.
 
 I print on a modified Voron 2.4 with toolchanger capability through Stealthchanger.
 
