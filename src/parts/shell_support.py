@@ -6,11 +6,12 @@ import units as u
 
 def rail_shell_support(params: Params, path: cq.Wire):
     t0 = path.tangentAt(0)
+    tolerance_offset = cq.Vector(0, 0, params.tolerance)
     plane = cq.Plane(path.positionAt(0), -t0.cross(cq.Vector(0, 0, 1)), t0)
     support = (
         cq.Workplane(plane)
         .center(0, params.height / 2)
-        .rect(params.shell_mid_thickness, params.height)
+        .rect(params.shell_mid_thickness, params.height - params.tolerance * 2)
         .sweep(path)
     )
 
@@ -25,11 +26,14 @@ def rail_shell_support(params: Params, path: cq.Wire):
 
     for i in range(1, support_count + 1):
         d = i / (support_count + 1)
-        local_plane = cq.Plane(path.positionAt(d), path.tangentAt(d))
+        local_plane = cq.Plane(path.positionAt(d) + tolerance_offset, path.tangentAt(d))
         support_square = (
             cq.Workplane(local_plane)
             .box(
-                square_width, square_width, params.height, centered=(True, True, False)
+                square_width,
+                square_width,
+                params.height - params.tolerance * 2,
+                centered=(True, True, False),
             )
             .rotateAboutCenter((0, 0, 1), 45)
         )
@@ -40,7 +44,7 @@ def rail_shell_support(params: Params, path: cq.Wire):
                 cq.Workplane(local_plane).box(
                     shell_thickness,
                     params.width - shell_thickness,
-                    params.height,
+                    params.height - params.tolerance * 2,
                     centered=(True, True, False),
                 )
                 - support_square
@@ -50,37 +54,41 @@ def rail_shell_support(params: Params, path: cq.Wire):
     support = support - (
         cq.Workplane(plane)
         .center(0, params.height / 2)
-        .rect(params.shell_mid_cut_thickness, params.height)
+        .rect(params.shell_mid_cut_thickness, params.height - params.tolerance * 2)
         .sweep(path)
     )
 
     for i in range(0, support_count + 1):
         d = (i + 0.5) / (support_count + 1)
-        local_plane = cq.Plane(path.positionAt(d), path.tangentAt(d))
+        local_plane = cq.Plane(path.positionAt(d) + tolerance_offset, path.tangentAt(d))
         support = support + (
             cq.Workplane(local_plane).box(
                 shell_thickness,
                 params.shell_mid_thickness - params.shell_mid_cut_thickness,
-                params.height,
+                params.height - params.tolerance * 2,
                 centered=(True, True, False),
             )
         )
 
     if params.start_joint:
         support = support - (
-            cq.Workplane(cq.Plane(path.positionAt(0), path.tangentAt(0))).box(
+            cq.Workplane(
+                cq.Plane(path.positionAt(0) + tolerance_offset, path.tangentAt(0))
+            ).box(
                 u.studs(params.standoff_studs[0]),
                 params.width * 2,
-                params.height,
+                params.height - params.tolerance * 2,
                 centered=(False, True, False),
             )
         )
     if params.end_joint:
         support = support - (
-            cq.Workplane(cq.Plane(path.positionAt(1), -path.tangentAt(1))).box(
+            cq.Workplane(
+                cq.Plane(path.positionAt(1) + tolerance_offset, -path.tangentAt(1))
+            ).box(
                 u.studs(params.standoff_studs[0]),
                 params.width * 2,
-                params.height,
+                params.height - params.tolerance * 2,
                 centered=(False, True, False),
             )
         )

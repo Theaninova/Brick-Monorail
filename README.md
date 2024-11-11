@@ -45,22 +45,19 @@ There's also an option that makes the side studs solid.
 
 ### Solid
 
-_PETG/PVA support interface is recommended if you want a clean underside_
-
 ![C15](./assets/solid/C15.svg)
+![Standoff](./assets/standoff.svg)
 
-This one omits the shell carving and is much easier to print.
+This one is optimized for 3D printing, with the rail solid and flush to the bed.
+Prints entirely supportless.
 
-There's also an option that makes the side studs hollow again.
+Requires additional pieces per rail:
 
-### Solid/Regress
+- 2x printed standoff, these are inserted into the bottom, and need to be fixated there (glue, melting).
+  If you don't use any original Monorail tracks you can also simply place a 2x2 plate there (this changes the height).
+- 8x 4274 (technic pin with stud)
 
-_This is a great option for printers that cannot use PETG/PVA supports._
-
-TODO
-
-This option resesses the negative studs into the rail so that the body can be printed flat on the build plate.
-an additional 2x2 plate has to be inserted to be on the same height as the original rails.
+Prints a _lot_ faster than the classic option.
 
 ## Operating on R25 instead of R28
 

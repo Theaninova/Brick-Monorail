@@ -7,6 +7,8 @@ presets = [
         Params(
             shell=True,
             hollow_studs=True,
+            standoff_flush_cut=False,
+            standoff_uses_pins=False,
             radius=u.studs(25),
             to=(u.studs(1), u.studs(7)),
         ),
@@ -16,6 +18,8 @@ presets = [
         Params(
             shell=True,
             hollow_studs=True,
+            standoff_flush_cut=False,
+            standoff_uses_pins=False,
             radius=u.studs(25),
             to=(u.studs(5), u.studs(15)),
         ),
@@ -25,6 +29,8 @@ presets = [
     #    Params(
     #        shell=True,
     #        hollow_studs=True,
+    #        standoff_flush_cut=False,
+    #        standoff_uses_pins=False,
     #        radius=u.studs(25),
     #        to=(u.studs(0), u.studs(4)),
     #    ),
@@ -34,6 +40,8 @@ presets = [
         Params(
             shell=True,
             hollow_studs=True,
+            standoff_flush_cut=False,
+            standoff_uses_pins=False,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(5)),
         ),
@@ -43,8 +51,21 @@ presets = [
         Params(
             shell=True,
             hollow_studs=True,
+            standoff_flush_cut=False,
+            standoff_uses_pins=False,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(10)),
+        ),
+    ),
+    (
+        "standoff",
+        Params(
+            shell=True,
+            hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(5)),
         ),
     ),
     (
@@ -52,6 +73,8 @@ presets = [
         Params(
             shell=False,
             hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(1), u.studs(7)),
         ),
@@ -61,6 +84,8 @@ presets = [
         Params(
             shell=False,
             hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(5), u.studs(15)),
         ),
@@ -70,6 +95,8 @@ presets = [
         Params(
             shell=False,
             hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(4)),
         ),
@@ -79,6 +106,8 @@ presets = [
         Params(
             shell=False,
             hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(5)),
         ),
@@ -88,96 +117,8 @@ presets = [
         Params(
             shell=False,
             hollow_studs=False,
-            radius=u.studs(25),
-            to=(u.studs(0), u.studs(10)),
-        ),
-    ),
-    (
-        "classic_solid_studs/C7",
-        Params(
-            shell=True,
-            hollow_studs=False,
-            radius=u.studs(25),
-            to=(u.studs(1), u.studs(7)),
-        ),
-    ),
-    (
-        "classic_solid_studs/C15",
-        Params(
-            shell=True,
-            hollow_studs=False,
-            radius=u.studs(25),
-            to=(u.studs(5), u.studs(15)),
-        ),
-    ),
-    # (
-    #    "classic_solid_studs/S4",
-    #    Params(
-    #        shell=True,
-    #        hollow_studs=False,
-    #        radius=u.studs(25),
-    #        to=(u.studs(0), u.studs(4)),
-    #    ),
-    # ),
-    (
-        "classic_solid_studs/S5",
-        Params(
-            shell=True,
-            hollow_studs=False,
-            radius=u.studs(25),
-            to=(u.studs(0), u.studs(5)),
-        ),
-    ),
-    (
-        "classic_solid_studs/S10",
-        Params(
-            shell=True,
-            hollow_studs=False,
-            radius=u.studs(25),
-            to=(u.studs(0), u.studs(10)),
-        ),
-    ),
-    (
-        "solid_hollow_studs/C7",
-        Params(
-            shell=False,
-            hollow_studs=True,
-            radius=u.studs(25),
-            to=(u.studs(1), u.studs(7)),
-        ),
-    ),
-    (
-        "solid_hollow_studs/C15",
-        Params(
-            shell=False,
-            hollow_studs=True,
-            radius=u.studs(25),
-            to=(u.studs(5), u.studs(15)),
-        ),
-    ),
-    (
-        "solid_hollow_studs/S4",
-        Params(
-            shell=False,
-            hollow_studs=True,
-            radius=u.studs(25),
-            to=(u.studs(0), u.studs(4)),
-        ),
-    ),
-    (
-        "solid_hollow_studs/S5",
-        Params(
-            shell=False,
-            hollow_studs=True,
-            radius=u.studs(25),
-            to=(u.studs(0), u.studs(5)),
-        ),
-    ),
-    (
-        "solid_hollow_studs/S10",
-        Params(
-            shell=False,
-            hollow_studs=True,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(10)),
         ),

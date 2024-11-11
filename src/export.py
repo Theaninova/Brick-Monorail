@@ -1,10 +1,15 @@
 import cadquery as cq
 from parts.rail import rail
+from parts.straight_joint import straight_joint_standoff_insert
 import presets
 import os
 
 for name, params in presets.presets:
-    part = rail(params)
+    part = (
+        straight_joint_standoff_insert(params, cq.Plane(cq.Vector(0, 0, 0)))
+        if name == "standoff"
+        else rail(params)
+    )
     c = part.val().BoundingBox().center
     part = part.translate(c * -1)
     dir = os.path.dirname(f"{name}.x")
