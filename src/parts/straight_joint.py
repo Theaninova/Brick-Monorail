@@ -189,13 +189,21 @@ def straight_joint(params: Params, plane: cq.Plane):
             .cutBlind(-params.nail_slot_size[2])
         )
 
-    workplane = (
-        workplane.faces("<Z")
-        .rect(
-            u.studs(params.joint_studs) - params.tolerance,
-            params.width - u.plate(2),
+    workplane = workplane + (
+        cq.Workplane(
+            cq.Plane(
+                plane.origin,
+                plane.xDir,
+                -plane.zDir,
+            )
         )
-        .extrude(height - params.standoff_height)
+        .center(params.tolerance, 0)
+        .box(
+            u.studs(params.joint_studs),
+            params.width - u.plate(2),
+            params.standoff_height - height,
+            centered=(False, True, False),
+        )
     )
 
     if params.connector:
@@ -276,8 +284,8 @@ def straight_joint(params: Params, plane: cq.Plane):
         cq.Workplane(plane)
         .pushPoints(
             [
-                (-params.connector_size[1], x, -h),
-                (-params.connector_size[1], -x, -h),
+                (-params.connector_size[1] + params.tolerance, x, -h),
+                (-params.connector_size[1] + params.tolerance, -x, -h),
             ]
         )
         .box(
