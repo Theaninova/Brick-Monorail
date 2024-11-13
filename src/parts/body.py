@@ -1,6 +1,7 @@
 import cadquery as cq
 from params import Params
 import units as u
+import math
 from parts.straight_joint import (
     straight_joint_cut,
     straight_joint_sharpening_cut,
@@ -18,6 +19,8 @@ def rail_body(params: Params, path: cq.Wire):
         .rect(params.width - params.tolerance * 2, params.height - params.tolerance * 2)
         .sweep(path)
     )
+    if params.style == "transrapid":
+        workplane = workplane.edges("<Z").chamfer(params.height / 2).fillet(u.ldu(2))
 
     joint_tolerance_offset = cq.Vector(0, 0, params.tolerance)
     start_joint_plane = cq.Plane(
@@ -91,5 +94,41 @@ def rail_body(params: Params, path: cq.Wire):
 
     if params.shell and params.shell_support:
         workplane = workplane + rail_shell_support(params, path)
+
+    if params.style == "transrapid":
+        x = params.width / 2 - u.plate(1) - params.nail_slot_size[1]
+        support_path = (
+            cq.Workplane(plane)
+            .pushPoints(
+                [
+                    (x, params.height - params.nail_slot_size[2] / 2),
+                    (-x, params.height - params.nail_slot_size[2] / 2),
+                ]
+            )
+            .rect(params.nail_slot_size[1], params.nail_slot_size[2])
+            .sweep(path)
+        )
+
+        support_count = math.floor(path.Length() / u.ldu(3))
+        support_count -= 1 - support_count % 4  # only odd number of supports
+
+        for i in range(0, support_count + 1):
+            if (i // 2) % 2 == 0:
+                continue
+            d = i / support_count
+            local_plane = cq.Plane(
+                path.positionAt(d)
+                + cq.Vector(0, 0, params.height - params.nail_slot_size[2]),
+                path.tangentAt(d),
+            )
+            support_path = support_path - (
+                cq.Workplane(local_plane).box(
+                    params.nail_slot_size[2] / 2,
+                    params.width,
+                    params.nail_slot_size[2],
+                )
+            )
+
+        workplane = workplane - support_path
 
     return workplane

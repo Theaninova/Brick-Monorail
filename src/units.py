@@ -15,11 +15,7 @@ def pin_shim(value):
 
 
 def pin_shim_height(value):
-    return value * ldu(3)
-
-
-def pin_clip(value):
-    return value * ldu(14)
+    return value * ldu(2)
 
 
 def stud_height(value):

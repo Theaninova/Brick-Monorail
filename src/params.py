@@ -17,6 +17,7 @@ class Params:
     # a pin hole is left to insert a 4274
     # technic pit with a stud.
     standoff_uses_pins: bool
+    style: str or None
 
     width: float = u.studs(4)
     height = u.studs(1)
@@ -31,7 +32,7 @@ class Params:
     joint_studs = 2
 
     nail_slot = True
-    nail_slot_size = (u.studs(1), u.ldu(2), u.ldu(2))
+    nail_slot_size = (u.studs(1), u.ldu(1), u.ldu(1))
 
     connector = True
     connector_position = u.ldu(4)
@@ -51,7 +52,7 @@ class Params:
     standoff_studs = (1, 2)
 
     teeth_height = u.ldu(8)
-    teeth_width = math.pi / 2 * 0.75
-    teeth_spacing = math.pi / 2 * 0.25
-    teeth_inner_width = u.ldu(9)
-    teeth_outer_width = u.ldu(15.5)
+    teeth_width = u.ldu(3.5)  # 75% is correct but this leaves 0.6mm on the outside
+    teeth_spacing = math.pi / 2
+    teeth_inner_width = u.ldu(9) - 0.3  # 3d printing optimization
+    teeth_outer_width = u.ldu(15.5) + 0.3  # 3d printing optimization

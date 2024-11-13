@@ -18,7 +18,7 @@ def straight_joint_cut(params: Params, plane: cq.Plane):
 
 def straight_joint_sharpening_cut(params: Params, plane: cq.Plane):
     x = u.studs(params.joint_studs)
-    y = params.width / 2 - u.plate(1)
+    y = params.width / 2 - u.plate(1) - params.tolerance
     return (
         cq.Workplane(plane)
         .pushPoints([(x, y), (x, -y)])
@@ -52,49 +52,61 @@ def joint_studs(params: Params, plane: cq.Plane, face: cq.Face):
     return workplane.vals()[0]
 
 
-def joint_pins(params: Params, plane: cq.Plane, face: cq.Face):
-    normal = -face.normalAt()
-    local_plane = cq.Plane(
-        face.Center() - plane.xDir * (params.tolerance / 2),
-        normal.cross(plane.zDir),
-        normal,
-    )
+def joint_pins(params: Params, plane: cq.Plane):
     extraction_padding = u.ldu(9)
+    xs = [u.studs(i + 0.5) for i in range(params.joint_studs)]
+    w = params.width - u.plate(2) - params.tolerance * 2
+    inner_width = w - u.studs(2) + u.pin_shim_height(2) + params.tolerance * 2
+    # usually this would be same as shim,
+    # but that would make the walls too thin
+    inner_radius = u.pin(0.5) + u.ldu(1)
     workplane = (
-        cq.Workplane(local_plane)
-        .rarray(u.studs(1), u.studs(1), params.joint_studs, 1)
-        .cylinder(u.pin_shim_height(1) + u.ldu(1), u.pin_shim(1) / 2)
-        .rarray(u.studs(1), u.studs(1), params.joint_studs, 1)
-        .cylinder(u.studs(1), u.pin(1) / 2, centered=(True, True, False))
-        .add(
-            cq.Workplane(
-                cq.Plane(
-                    local_plane.origin
-                    + local_plane.zDir * (u.studs(1) + extraction_padding / 2)
-                    - cq.Vector(0, 0, u.brick(0.5)),
-                    local_plane.xDir,
-                    local_plane.zDir,
-                )
-            )
-            .rarray(u.studs(1), u.studs(1), params.joint_studs, 1)
-            .box(u.pin_clip(1), u.brick(1), u.ldu(3) + extraction_padding)
+        cq.Workplane(plane)
+        .pushPoints([(x, w / -2, u.studs(0.5)) for x in xs])
+        .cylinder(
+            w,
+            u.pin(0.5) + params.tolerance,
+            direct=(0, 1, 0),
+            centered=(True, True, False),
         )
-        .add(
-            cq.Workplane(
-                cq.Plane(
-                    local_plane.origin
-                    + local_plane.zDir * (u.studs(1) + extraction_padding / 2),
-                    local_plane.xDir,
-                    local_plane.zDir,
-                )
-            )
-            .rarray(u.studs(1), u.studs(1), params.joint_studs, 1)
-            .cylinder(u.ldu(3) + extraction_padding, u.pin_clip(1) / 2)
+        .pushPoints(
+            [
+                (x, w / f - h, u.studs(0.5))
+                for x in xs
+                for f, h in [(-2, 0), (2, u.pin_shim_height(1))]
+            ]
         )
-        .combine()
+        .cylinder(
+            u.pin_shim_height(1),
+            u.pin_shim(0.5) + params.tolerance,
+            direct=(0, 1, 0),
+            centered=(True, True, False),
+        )
+        .pushPoints(
+            [
+                (
+                    x,
+                    inner_width / -2,
+                    u.studs(0.5),
+                )
+                for x in xs
+            ]
+        )
+        .cylinder(
+            inner_width,
+            inner_radius,
+            direct=(0, 1, 0),
+            centered=(True, True, False),
+        )
+        .pushPoints([(x, 0, -(params.standoff_height - params.height)) for x in xs])
+        .box(
+            inner_radius * 2,
+            inner_width,
+            params.standoff_height - u.studs(0.5),
+            centered=(True, True, False),
+        )
     )
-
-    return workplane.vals()[0]
+    return workplane
 
 
 def straight_joint_standoff_insert(params: Params, plane: cq.Plane):
@@ -139,28 +151,21 @@ def straight_joint_standoff_insert(params: Params, plane: cq.Plane):
 
 def straight_joint(params: Params, plane: cq.Plane):
     height = params.height - params.tolerance * 2
-    half_width = (params.width - u.plate(2)) / 2
+    inner_width = params.width - u.plate(2) - params.tolerance * 2
+    half_inner_width = inner_width / 2
     workplane = (
         cq.Workplane(plane)
         .center(params.tolerance, 0)
         .box(
             u.studs(params.joint_studs) - params.tolerance,
-            params.width - u.plate(2),
+            inner_width,
             height,
             centered=(False, True, False),
         )
     )
 
     if params.standoff_uses_pins:
-        workplane = workplane.faces(
-            cq.selectors.SumSelector(
-                cq.selectors.DirectionNthSelector(plane.yDir, 1),
-                cq.selectors.DirectionNthSelector(plane.yDir, 0),
-            )
-        ).each(
-            lambda f: joint_pins(params, plane, f),
-            combine="s",
-        )
+        workplane = workplane - joint_pins(params, plane)
     else:
         workplane = workplane.faces(
             cq.selectors.SumSelector(
@@ -177,8 +182,8 @@ def straight_joint(params: Params, plane: cq.Plane):
             .sketch()
             .push(
                 [
-                    (params.tolerance / -2, half_width),
-                    (params.tolerance / -2, -half_width),
+                    (params.tolerance / -2, half_inner_width),
+                    (params.tolerance / -2, -half_inner_width),
                 ]
             )
             .rect(
@@ -200,7 +205,7 @@ def straight_joint(params: Params, plane: cq.Plane):
         .center(params.tolerance, 0)
         .box(
             u.studs(params.joint_studs),
-            params.width - u.plate(2),
+            inner_width,
             params.standoff_height - height,
             centered=(False, True, False),
         )
@@ -212,16 +217,17 @@ def straight_joint(params: Params, plane: cq.Plane):
         ).val()
         normal = face.normalAt()
         face_plane = cq.Plane(face.Center(), normal.cross(plane.zDir), normal)
-        x_pos = (
-            params.width - u.plate(2) - params.connector_size[1]
-        ) / 2 - params.connector_position
+        x_pos = (inner_width - params.connector_size[1]) / 2 - params.connector_position
         full_height = face.BoundingBox().zlen
+
+        positive_width = params.connector_size[1] - params.tolerance
+        negative_width = params.connector_size[1] + params.tolerance
 
         positive = (
             cq.Workplane(face_plane)
             .center(-x_pos, 0)
             .box(
-                params.connector_size[1] - params.tolerance,
+                positive_width,
                 full_height,
                 (params.connector_size[0] - params.tolerance) * 2,
             )
@@ -230,7 +236,7 @@ def straight_joint(params: Params, plane: cq.Plane):
             cq.Workplane(face_plane)
             .center(x_pos, 0)
             .box(
-                params.connector_size[1],
+                negative_width,
                 full_height,
                 params.connector_size[0] * 2,
             )
@@ -253,19 +259,19 @@ def straight_joint(params: Params, plane: cq.Plane):
                     [
                         (
                             params.connector_size[0],
-                            x_pos + params.connector_size[1] / 2,
+                            x_pos + negative_width / 2,
                         ),
                         (
                             params.connector_size[0],
-                            x_pos - params.connector_size[1] / 2,
+                            x_pos - negative_width / 2,
                         ),
                         (
                             0,
-                            -x_pos + (params.connector_size[1]) / 2,
+                            -x_pos + positive_width / 2,
                         ),
                         (
                             0,
-                            -x_pos - (params.connector_size[1]) / 2,
+                            -x_pos - positive_width / 2,
                         ),
                     ]
                 )
@@ -317,6 +323,8 @@ def straight_joint(params: Params, plane: cq.Plane):
             stud_slot_depth,
             centered=(True, True, False),
         )
+        .edges("|Z")
+        .chamfer(params.standoff_padding / 2)
     )
     workplane = workplane - stud_slot
     for i in range(1, params.standoff_studs[0] + 1):

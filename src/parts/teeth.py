@@ -18,7 +18,7 @@ def tooth(params: Params, plane: cq.Plane):
 def rail_teeth(params: Params, path: cq.Wire):
     path_wire_length = path.Length()
     teeth_count = math.floor(
-        path_wire_length / (params.teeth_width + params.teeth_spacing)
+        path_wire_length / params.teeth_spacing
     )
     t0 = path.tangentAt(0)
     z = params.height - params.tolerance + params.teeth_height / 2

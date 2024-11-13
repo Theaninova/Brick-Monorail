@@ -5,6 +5,7 @@ presets = [
     (
         "classic/C7",
         Params(
+            style=None,
             shell=True,
             hollow_studs=True,
             standoff_flush_cut=False,
@@ -16,6 +17,7 @@ presets = [
     (
         "classic/C15",
         Params(
+            style=None,
             shell=True,
             hollow_studs=True,
             standoff_flush_cut=False,
@@ -27,6 +29,7 @@ presets = [
     # (
     #    "classic/S4",
     #    Params(
+    #        style=None,
     #        shell=True,
     #        hollow_studs=True,
     #        standoff_flush_cut=False,
@@ -38,6 +41,7 @@ presets = [
     (
         "classic/S5",
         Params(
+            style=None,
             shell=True,
             hollow_studs=True,
             standoff_flush_cut=False,
@@ -49,6 +53,7 @@ presets = [
     (
         "classic/S10",
         Params(
+            style=None,
             shell=True,
             hollow_studs=True,
             standoff_flush_cut=False,
@@ -60,6 +65,7 @@ presets = [
     (
         "standoff",
         Params(
+            style=None,
             shell=True,
             hollow_studs=False,
             standoff_flush_cut=True,
@@ -71,6 +77,7 @@ presets = [
     (
         "solid/C7",
         Params(
+            style=None,
             shell=False,
             hollow_studs=False,
             standoff_flush_cut=True,
@@ -82,6 +89,7 @@ presets = [
     (
         "solid/C15",
         Params(
+            style=None,
             shell=False,
             hollow_studs=False,
             standoff_flush_cut=True,
@@ -93,6 +101,7 @@ presets = [
     (
         "solid/S4",
         Params(
+            style=None,
             shell=False,
             hollow_studs=False,
             standoff_flush_cut=True,
@@ -104,6 +113,7 @@ presets = [
     (
         "solid/S5",
         Params(
+            style=None,
             shell=False,
             hollow_studs=False,
             standoff_flush_cut=True,
@@ -115,6 +125,67 @@ presets = [
     (
         "solid/S10",
         Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(10)),
+        ),
+    ),
+    (
+        "transrapid/C7",
+        Params(
+            style="transrapid",
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(1), u.studs(7)),
+        ),
+    ),
+    (
+        "transrapid/C15",
+        Params(
+            style="transrapid",
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(5), u.studs(15)),
+        ),
+    ),
+    (
+        "transrapid/S4",
+        Params(
+            style="transrapid",
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(4)),
+        ),
+    ),
+    (
+        "transrapid/S5",
+        Params(
+            style="transrapid",
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(5)),
+        ),
+    ),
+    (
+        "transrapid/S10",
+        Params(
+            style="transrapid",
             shell=False,
             hollow_studs=False,
             standoff_flush_cut=True,
