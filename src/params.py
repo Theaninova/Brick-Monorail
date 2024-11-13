@@ -41,7 +41,7 @@ class Params:
     # 3D printing optimization that makes
     # functional inner corners sharper
     corner_sharpening = True
-    corner_sharpening_amount = u.ldu(1)
+    corner_sharpening_amount = (u.ldu(0.5), u.ldu(1))
 
     shell_mid_thickness = u.stud(1)
     shell_mid_cut_thickness = u.ldu(4)

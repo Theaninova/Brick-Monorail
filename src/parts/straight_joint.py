@@ -24,7 +24,7 @@ def straight_joint_sharpening_cut(params: Params, plane: cq.Plane):
         .pushPoints([(x, y), (x, -y)])
         .cylinder(
             params.height - params.tolerance * 2,
-            params.corner_sharpening_amount / 2,
+            params.corner_sharpening_amount[1] / 2,
             centered=(True, True, False),
         )
     )
@@ -56,7 +56,7 @@ def joint_pins(params: Params, plane: cq.Plane):
     extraction_padding = u.ldu(9)
     xs = [u.studs(i + 0.5) for i in range(params.joint_studs)]
     w = params.width - u.plate(2) - params.tolerance * 2
-    inner_width = w - u.studs(2) + u.pin_shim_height(2) + params.tolerance * 2
+    inner_width = w - u.studs(2) + u.pin_shim_height(2)
     # usually this would be same as shim,
     # but that would make the walls too thin
     inner_radius = u.pin(0.5) + u.ldu(1)
@@ -151,7 +151,7 @@ def straight_joint_standoff_insert(params: Params, plane: cq.Plane):
 
 def straight_joint(params: Params, plane: cq.Plane):
     height = params.height - params.tolerance * 2
-    inner_width = params.width - u.plate(2) - params.tolerance * 2
+    inner_width = params.width - u.plate(2) - params.tolerance * 4
     half_inner_width = inner_width / 2
     workplane = (
         cq.Workplane(plane)
@@ -221,7 +221,7 @@ def straight_joint(params: Params, plane: cq.Plane):
         full_height = face.BoundingBox().zlen
 
         positive_width = params.connector_size[1] - params.tolerance
-        negative_width = params.connector_size[1] + params.tolerance
+        negative_width = params.connector_size[1] + params.tolerance * 2
 
         positive = (
             cq.Workplane(face_plane)
@@ -242,6 +242,8 @@ def straight_joint(params: Params, plane: cq.Plane):
             )
         )
         workplane = workplane + positive - negative
+        x_sharpen = params.corner_sharpening_amount[0] / 2
+        y_sharpen = params.corner_sharpening_amount[1] / 2
         if params.corner_sharpening:
             cuts = (
                 cq.Workplane(
@@ -258,26 +260,27 @@ def straight_joint(params: Params, plane: cq.Plane):
                 .pushPoints(
                     [
                         (
-                            params.connector_size[0],
-                            x_pos + negative_width / 2,
+                            params.connector_size[0] + y_sharpen,
+                            x_pos + negative_width / 2 - x_sharpen,
                         ),
                         (
-                            params.connector_size[0],
-                            x_pos - negative_width / 2,
+                            params.connector_size[0] + y_sharpen,
+                            x_pos - negative_width / 2 + x_sharpen,
                         ),
                         (
-                            0,
-                            -x_pos + positive_width / 2,
+                            y_sharpen,
+                            -x_pos + positive_width / 2 + x_sharpen,
                         ),
                         (
-                            0,
-                            -x_pos - positive_width / 2,
+                            y_sharpen,
+                            -x_pos - positive_width / 2 - x_sharpen,
                         ),
                     ]
                 )
-                .cylinder(
+                .box(
+                    params.corner_sharpening_amount[1],
+                    params.corner_sharpening_amount[0],
                     full_height,
-                    params.corner_sharpening_amount / 2,
                     centered=(True, True, False),
                 )
             )
