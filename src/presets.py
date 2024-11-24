@@ -1,4 +1,5 @@
 from params import Params
+import math
 import units as u
 
 presets = [
@@ -132,6 +133,192 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(10)),
+        ),
+    ),
+    (
+        "solid/S25",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(25)),
+        ),
+    ),
+    (
+        "solid/R28/C45",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=True,
+            standoff_uses_pins=True,
+            radius=u.studs(28),
+            to=(
+                u.studs(math.sin(math.radians(45)) * 28),
+                u.studs((1 - math.cos(math.radians(45))) * 28),
+            ),
+        ),
+    ),
+    (
+        "solid_support/C7",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(1), u.studs(7)),
+        ),
+    ),
+    (
+        "solid_support/C7_support",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(1), u.studs(7)),
+        ),
+    ),
+    (
+        "solid_support/C15",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(5), u.studs(15)),
+        ),
+    ),
+    (
+        "solid_support/C15_support",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(5), u.studs(15)),
+        ),
+    ),
+    (
+        "solid_support/S4",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(4)),
+        ),
+    ),
+    (
+        "solid_support/S4_support",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(4)),
+        ),
+    ),
+    (
+        "solid_support/S5",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(5)),
+        ),
+    ),
+    (
+        "solid_support/S5_support",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(5)),
+        ),
+    ),
+    (
+        "solid_support/S10",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(10)),
+        ),
+    ),
+    (
+        "solid_support/S10_support",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(10)),
+        ),
+    ),
+    (
+        "solid_support/S25",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(25)),
+        ),
+    ),
+    (
+        "solid_support/S25_support",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(25),
+            to=(u.studs(0), u.studs(25)),
+        ),
+    ),
+    (
+        "solid_support/R28/C45",
+        Params(
+            style=None,
+            shell=False,
+            hollow_studs=False,
+            standoff_flush_cut=False,
+            standoff_uses_pins=True,
+            radius=u.studs(28),
+            to=(
+                u.studs(math.sin(math.radians(45)) * 28),
+                u.studs((1 - math.cos(math.radians(45))) * 28),
+            ),
         ),
     ),
     (

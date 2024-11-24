@@ -51,6 +51,7 @@ class Params:
     standoff_padding = u.ldu(6)
     standoff_studs = (1, 2)
 
+    teeth = True
     teeth_height = u.ldu(8)
     teeth_width = u.ldu(3.5)  # 75% is correct but this leaves 0.6mm on the outside
     teeth_spacing = math.pi / 2

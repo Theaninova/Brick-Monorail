@@ -54,7 +54,6 @@ def rail_body(params: Params, path: cq.Wire):
     standoff_cut_width = params.width - u.studs(params.standoff_studs[1])
     if params.start_joint:
         workplane = workplane + straight_joint(params, start_joint_plane)
-    if params.start_joint and params.shell:
         cut = cq.Workplane(
             cq.Plane(
                 start_joint_plane.origin
@@ -74,7 +73,6 @@ def rail_body(params: Params, path: cq.Wire):
 
     if params.end_joint:
         workplane = workplane + straight_joint(params, end_joint_plane)
-    if params.end_joint and params.shell:
         cut = cq.Workplane(
             cq.Plane(
                 end_joint_plane.origin
