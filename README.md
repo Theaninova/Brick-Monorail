@@ -5,14 +5,14 @@ Orders of magnitude cheaper than buying used.
 
 You can also generate your own custom rails with any radius, length, or if you feel bold, even splines.
 
-| Preset | Material Cost | Time | Solid                                                                                      | Classic                                                                                        |
-| ------ | ------------- | ---- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| C15    | tbd           | tbd  | <a href="./STEPs/solid/C15.step" download><img src="./assets/solid/C15.svg" width=150></a> | <a href="./STEPs/classic/C15.step" download><img src="./assets/classic/C15.svg" width=150></a> |
-| C7     | tbd           | tbd  | <a href="./STEPs/solid/C7.step" download><img src="./assets/solid/C7.svg" width=150></a>   | <a href="./STEPs/classic/C7.step" download><img src="./assets/classic/C7.svg" width=150></a>   |
-| S25    | tbd           | tbd  | (todo)                                                                                     | (todo)                                                                                         |
-| S10    | tbd           | tbd  | <a href="./STEPs/solid/S10.step" download><img src="./assets/solid/S10.svg" width=150></a> | <a href="./STEPs/classic/S10.step" download><img src="./assets/classic/S10.svg" width=150></a> |
-| S5     | ~12ct         | ~25m | <a href="./STEPs/solid/S5.step" download><img src="./assets/solid/S5.svg" width=150></a>   | <a href="./STEPs/classic/S5.step" download><img src="./assets/classic/S5.svg" width=150></a>   |
-| S4     | tbd           | tbd  | <a href="./STEPs/solid/C15.step" download><img src="./assets/solid/S4.svg" width=150></a>  | (broken)                                                                                       |
+| Preset | Material Cost | Time | Solid                                                                                                      | Classic                                                                                        |
+| ------ | ------------- | ---- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| C15    | tbd           | tbd  | <a href="./STEPs/solid_support/C15.step" download><img src="./assets/solid_support/C15.svg" width=150></a> | <a href="./STEPs/classic/C15.step" download><img src="./assets/classic/C15.svg" width=150></a> |
+| C7     | tbd           | tbd  | <a href="./STEPs/solid_support/C7.step" download><img src="./assets/solid_support/C7.svg" width=150></a>   | <a href="./STEPs/classic/C7.step" download><img src="./assets/classic/C7.svg" width=150></a>   |
+| S25    | tbd           | tbd  | (todo)                                                                                                     | (todo)                                                                                         |
+| S10    | tbd           | tbd  | <a href="./STEPs/solid_support/S10.step" download><img src="./assets/solid_support/S10.svg" width=150></a> | <a href="./STEPs/classic/S10.step" download><img src="./assets/classic/S10.svg" width=150></a> |
+| S5     | ~12ct         | ~25m | <a href="./STEPs/solid_support/S5.step" download><img src="./assets/solid_support/S5.svg" width=150></a>   | <a href="./STEPs/classic/S5.step" download><img src="./assets/classic/S5.svg" width=150></a>   |
+| S4     | tbd           | tbd  | <a href="./STEPs/solid_support/C15.step" download><img src="./assets/solid_support/S4.svg" width=150></a>  | (broken)                                                                                       |
 
 Todo: ramps, switches, train assembly
 
@@ -22,14 +22,40 @@ For now, I also use non-baseplate aligned joints for curves. While this means yo
 on a baseplate, it enables you to use straight rails at non-90 degree angles which I think is an absolute
 win over the original design since the 45 degree curves are useless outside of joining them with switches.
 
-### Solid (preferred)
+### Solid/Support (preferred)
+
+<div style="display: flex">
+<img alt="C15" src="./assets/solid_support/C15.svg" width="300">
+<img alt="Standoff" src="./assets/solid_support/C15_support.svg" width="300">
+</div>
+
+This one is **optimized for 3D printing**, with a single reusable support piece that is inserted about 5 minutes into the print.
+
+**Requires additional pieces for 3D printing:**
+
+- **1x printed PETG support**. PETG does not stick to PLA, so it is vital you print this part in PETG.
+  - Enable ironing for a nice bottom rail finish
+  - **Wait until the bed has cooled down.**
+    If you remove the thin support piece while the bed is still hot you can permanently bend the part.
+  - Before you start the print, **place the PETG support piece on the heated bed** with the ironed top face down.
+    Leave it there until you insert it, this improves how well the next layer sticks to the support piece
+    and prevents unwanted additional thermal expansion mid print.
+  - When you slice the main rail, look for the layer where it prints mid-air and **add a pause.**
+    In Orca Slicer you can do that by right clicking on the layer slider on the right.
+  - About 5 minutes into the print (depending on your printer) your printer will pause.
+    Take the support piece and place it so that the next layer will be laid down on the ironed top face.
+    The piece should slide in with little to no resistance and barely move at all.
+- **8x 4274 technic pin with stud**, because side studs print notoriously bad.
+  This version comes with technic pin holes instead.
+
+### Solid
 
 <div style="display: flex">
 <img alt="C15" src="./assets/solid/C15.svg" width="300">
 <img alt="Standoff" src="./assets/standoff.svg" width="150">
 </div>
 
-This one is **optimized for 3D printing**, with the rail solid and flush to the bed.
+This one is **optimized for 3D printing**, with the rail solid and flush to the bed and inserts that are printed separately.
 
 **Requires additional pieces per rail:**
 
