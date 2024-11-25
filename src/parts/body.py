@@ -10,6 +10,14 @@ from parts.straight_joint import (
 from parts.shell_support import rail_shell_support
 
 
+class ExcludeSelector(cq.Selector):
+    def __init__(self, workplane: cq.Workplane):
+        self.edges = dict.fromkeys(workplane.vals())
+
+    def filter(self, objectList: [cq.Shape]):
+        return [edge for edge in objectList if not edge in self.edges]
+
+
 def rail_body(params: Params, path: cq.Wire):
     t0 = path.tangentAt(0)
     plane = cq.Plane(path.positionAt(0), -t0.cross(cq.Vector(0, 0, 1)), t0)
@@ -68,8 +76,6 @@ def rail_body(params: Params, path: cq.Wire):
             centered=(False, True, False),
         )
         workplane = workplane - cut
-    if params.start_joint and params.corner_sharpening:
-        workplane = workplane - straight_joint_sharpening_cut(params, start_joint_plane)
 
     if params.end_joint:
         workplane = workplane + straight_joint(params, end_joint_plane)
@@ -87,6 +93,20 @@ def rail_body(params: Params, path: cq.Wire):
             centered=(False, True, False),
         )
         workplane = workplane - cut
+
+    if params.chamfer_bottom is not None:
+        workplane = (
+            workplane.faces("<Z[-2]")
+            .edges(
+                ExcludeSelector(
+                    workplane.faces("#Z").faces("<Z").edges("#Z").edges(">Z")
+                )
+            )
+            .chamfer(params.chamfer_bottom)
+        )
+
+    if params.start_joint and params.corner_sharpening:
+        workplane = workplane - straight_joint_sharpening_cut(params, start_joint_plane)
     if params.end_joint and params.corner_sharpening:
         workplane = workplane - straight_joint_sharpening_cut(params, end_joint_plane)
 

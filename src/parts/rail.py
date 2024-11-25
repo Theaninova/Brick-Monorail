@@ -63,7 +63,7 @@ def rail_support_joint(
         (u.studs(2) + params.tolerance * 3) * 2,
         u.studs(params.standoff_studs[1])
         + params.standoff_padding
-        + params.tolerance * 4,
+        + params.tolerance * 2,
         params.height,
     ) - cq.Workplane(plane).center(
         u.studs(params.standoff_studs[0]) + params.tolerance * 2, 0
@@ -93,7 +93,7 @@ def rail_support(params: Params):
     workplane = (
         cq.Workplane(plane)
         .center(0, -(standoff_offset) / 2 + params.tolerance)
-        .rect(params.width - params.tolerance * 2, standoff_offset)
+        .rect(params.width + params.tolerance * 2, standoff_offset)
         .sweep(path)
     )
 

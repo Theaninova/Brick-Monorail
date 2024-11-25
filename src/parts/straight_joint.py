@@ -18,7 +18,7 @@ def straight_joint_cut(params: Params, plane: cq.Plane):
 
 def straight_joint_sharpening_cut(params: Params, plane: cq.Plane):
     x = u.studs(params.joint_studs)
-    y = params.width / 2 - u.plate(1) - params.tolerance
+    y = params.width / 2 - u.plate(1) - params.tolerance * 2
     return (
         cq.Workplane(plane)
         .pushPoints([(x, y), (x, -y)])
@@ -332,13 +332,17 @@ def straight_joint(params: Params, plane: cq.Plane):
     workplane = workplane - stud_slot
     for i in range(1, params.standoff_studs[0] + 1):
         x = u.studs(i / 2)
-        y = u.studs(params.standoff_studs[1]) / 2 - (u.studs(1) - u.stud(1)) / 4
+        y = (
+            u.studs(params.standoff_studs[1]) / 2
+            - (u.studs(1) - u.stud(1)) / 4
+            - params.tolerance / 4
+        )
         workplane = workplane + (
             cq.Workplane(stud_slot_plane)
             .pushPoints([(x, y), (x, -y)])
             .box(
                 params.standoff_padding / 2,
-                (u.studs(1) - u.stud(1)) / 2,
+                (u.studs(1) - u.stud(1)) / 2 + params.tolerance / 2,
                 stud_slot_depth,
                 centered=(True, True, False),
             )
@@ -349,7 +353,7 @@ def straight_joint(params: Params, plane: cq.Plane):
         for i in range(0, params.standoff_studs[0] + 1)
         for j in range(1, params.standoff_studs[1])
     ]
-    r = (math.sqrt(2 * u.studs(1) ** 2) - u.stud(1)) / 2
+    r = (math.sqrt(2 * u.studs(1) ** 2) - u.stud(1)) / 2 + params.tolerance / 2
 
     workplane = workplane + (
         cq.Workplane(stud_slot_plane)

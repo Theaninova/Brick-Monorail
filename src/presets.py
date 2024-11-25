@@ -13,6 +13,7 @@ presets = [
             standoff_uses_pins=False,
             radius=u.studs(25),
             to=(u.studs(1), u.studs(7)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -25,6 +26,7 @@ presets = [
             standoff_uses_pins=False,
             radius=u.studs(25),
             to=(u.studs(5), u.studs(15)),
+            chamfer_bottom=None,
         ),
     ),
     # (
@@ -49,6 +51,7 @@ presets = [
             standoff_uses_pins=False,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(5)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -61,6 +64,7 @@ presets = [
             standoff_uses_pins=False,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(10)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -73,6 +77,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(5)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -85,6 +90,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(1), u.studs(7)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -97,6 +103,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(5), u.studs(15)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -109,6 +116,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(4)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -121,6 +129,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(5)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -133,6 +142,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(10)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -145,6 +155,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(25)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -160,6 +171,7 @@ presets = [
                 u.studs(math.sin(math.radians(45)) * 28),
                 u.studs((1 - math.cos(math.radians(45))) * 28),
             ),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -172,6 +184,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(1), u.studs(7)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -184,6 +197,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(1), u.studs(7)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -196,6 +210,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(5), u.studs(15)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -208,6 +223,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(5), u.studs(15)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -220,6 +236,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(4)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -232,6 +249,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(4)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -244,6 +262,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(5)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -256,6 +275,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(5)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -268,6 +288,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(10)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -280,6 +301,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(10)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -292,6 +314,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(25)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -304,6 +327,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(25)),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -319,6 +343,7 @@ presets = [
                 u.studs(math.sin(math.radians(45)) * 28),
                 u.studs((1 - math.cos(math.radians(45))) * 28),
             ),
+            chamfer_bottom=0.4,
         ),
     ),
     (
@@ -331,6 +356,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(1), u.studs(7)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -343,6 +369,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(5), u.studs(15)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -355,6 +382,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(4)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -367,6 +395,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(5)),
+            chamfer_bottom=None,
         ),
     ),
     (
@@ -379,6 +408,7 @@ presets = [
             standoff_uses_pins=True,
             radius=u.studs(25),
             to=(u.studs(0), u.studs(10)),
+            chamfer_bottom=None,
         ),
     ),
 ]

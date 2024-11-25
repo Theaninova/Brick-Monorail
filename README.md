@@ -29,9 +29,9 @@ win over the original design since the 45 degree curves are useless outside of j
 <img alt="Standoff" src="./assets/solid_support/C15_support.svg" width="300">
 </div>
 
-This one is **optimized for 3D printing**, with a single reusable support piece that is inserted about 5 minutes into the print.
+This one is **optimized for 3D printing**, with a single reusable support piece that is inserted about 5 minutes into the print for _practically perfect_ bottom surfaces.
 
-**Requires additional pieces for 3D printing:**
+**Requires additional attention:**
 
 - **1x printed PETG support**. PETG does not stick to PLA, so it is vital you print this part in PETG.
   - Enable ironing for a nice bottom rail finish
@@ -45,6 +45,8 @@ This one is **optimized for 3D printing**, with a single reusable support piece 
   - About 5 minutes into the print (depending on your printer) your printer will pause.
     Take the support piece and place it so that the next layer will be laid down on the ironed top face.
     The piece should slide in with little to no resistance and barely move at all.
+  - In principle you can also just enable support instead of the reusable piece,
+    but you won't get results even close to this.
 - **8x 4274 technic pin with stud**, because side studs print notoriously bad.
   This version comes with technic pin holes instead.
 

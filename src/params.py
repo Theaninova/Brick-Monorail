@@ -17,6 +17,7 @@ class Params:
     # a pin hole is left to insert a 4274
     # technic pit with a stud.
     standoff_uses_pins: bool
+    chamfer_bottom: float or None
     style: str or None
 
     width: float = u.studs(4)
