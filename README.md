@@ -5,14 +5,16 @@ Orders of magnitude cheaper than buying used.
 
 You can also generate your own custom rails with any radius, length, or if you feel bold, even splines.
 
-| Preset | Material Cost | Time | Solid                                                                                                      | Classic                                                                                        |
-| ------ | ------------- | ---- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| C15    | tbd           | tbd  | <a href="./STEPs/solid_support/C15.step" download><img src="./assets/solid_support/C15.svg" width=150></a> | <a href="./STEPs/classic/C15.step" download><img src="./assets/classic/C15.svg" width=150></a> |
-| C7     | tbd           | tbd  | <a href="./STEPs/solid_support/C7.step" download><img src="./assets/solid_support/C7.svg" width=150></a>   | <a href="./STEPs/classic/C7.step" download><img src="./assets/classic/C7.svg" width=150></a>   |
-| S25    | tbd           | tbd  | (todo)                                                                                                     | (todo)                                                                                         |
-| S10    | tbd           | tbd  | <a href="./STEPs/solid_support/S10.step" download><img src="./assets/solid_support/S10.svg" width=150></a> | <a href="./STEPs/classic/S10.step" download><img src="./assets/classic/S10.svg" width=150></a> |
-| S5     | ~12ct         | ~25m | <a href="./STEPs/solid_support/S5.step" download><img src="./assets/solid_support/S5.svg" width=150></a>   | <a href="./STEPs/classic/S5.step" download><img src="./assets/classic/S5.svg" width=150></a>   |
-| S4     | tbd           | tbd  | <a href="./STEPs/solid_support/C15.step" download><img src="./assets/solid_support/S4.svg" width=150></a>  | (broken)                                                                                       |
+| Preset                 | Material Cost | Time | Min. Bed Size | Solid                                                                                                      | Classic                                                                                        |
+| ---------------------- | ------------- | ---- | ------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| C15                    | tbd           | tbd  | 112mm²        | <a href="./STEPs/solid_support/C15.step" download><img src="./assets/solid_support/C15.svg" width=150></a> | <a href="./STEPs/classic/C15.step" download><img src="./assets/classic/C15.svg" width=150></a> |
+| C7                     | tbd           | tbd  | 63mm²         | <a href="./STEPs/solid_support/C7.step" download><img src="./assets/solid_support/C7.svg" width=150></a>   | <a href="./STEPs/classic/C7.step" download><img src="./assets/classic/C7.svg" width=150></a>   |
+| S25                    | tbd           | tbd  | 165mm²        | <a href="./STEPs/solid_support/S25.step" download><img src="./assets/solid_support/S25.svg" width=150></a> | <a href="./STEPs/classic/S25.step" download><img src="./assets/classic/S25.svg" width=150></a> |
+| S10                    | tbd           | tbd  | 80mm²         | <a href="./STEPs/solid_support/S10.step" download><img src="./assets/solid_support/S10.svg" width=150></a> | <a href="./STEPs/classic/S10.step" download><img src="./assets/classic/S10.svg" width=150></a> |
+| S5                     | ~12ct         | ~25m | 52mm²         | <a href="./STEPs/solid_support/S5.step" download><img src="./assets/solid_support/S5.svg" width=150></a>   | <a href="./STEPs/classic/S5.step" download><img src="./assets/classic/S5.svg" width=150></a>   |
+| S4                     | tbd           | tbd  | 46mm²         | <a href="./STEPs/solid_support/C15.step" download><img src="./assets/solid_support/S4.svg" width=150></a>  | (broken)                                                                                       |
+| Classic Long Straight  | tbd           | tbd  | **~200mm²**   | (todo)                                                                                                     | (todo)                                                                                         |
+| Classic Short Straight | tbd           | tbd  | tbd           | (todo)                                                                                                     | (todo)                                                                                         |
 
 Todo: ramps, switches, train assembly
 
