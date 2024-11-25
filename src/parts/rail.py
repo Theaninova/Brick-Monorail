@@ -1,4 +1,5 @@
 import cadquery as cq
+import math
 from params import Params
 import units as u
 from parts.body import rail_body
@@ -96,6 +97,23 @@ def rail_support(params: Params):
         .rect(params.width + params.tolerance * 2, standoff_offset)
         .sweep(path)
     )
+
+    path_length = path.Length()
+    expansion_cut_count = math.floor(path_length / u.studs(2))
+    for i in range(1, expansion_cut_count - 1):
+        d = (i + 1) / (expansion_cut_count + 1)
+        workplane = workplane - (
+            cq.Workplane(
+                cq.Plane(
+                    path.positionAt(d) + cq.Vector(0, 0, -(standoff_offset) / 2 - 0.4),
+                    path.tangentAt(d),
+                ),
+            ).box(
+                0.8,
+                params.width * 2,
+                standoff_offset,
+            )
+        )
 
     joint_tolerance_offset = cq.Vector(0, 0, params.tolerance)
     start_joint_plane = cq.Plane(
