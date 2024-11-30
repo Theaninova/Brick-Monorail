@@ -88,17 +88,10 @@ grid with turntables.
 - Straight S12
 - Straight S10
 - Straight S5
-- Straight S4
+- Straight S2
 - Ramp I13
 
-How it fits
-
-- Two C15 and one C7 make exactly a 90 degree turn, where every part stays on the stud grid.
-- An s-curve with C15 moves over 20 studs, diagonals can be done with any length divisible by 5
-- An s-curve with C7 moves two studs, but diagonals require a full S25 to land cleanly again.
-- An I13 moves up 5 bricks
-
-![](./assets/r25.svg)
+See the [Cheatsheet](./R25.md) to see how incredibly flexible this system is.
 
 ## Printing
 
@@ -120,10 +113,10 @@ I print on a modified Voron 2.4 with toolchanger capability through Stealthchang
 
 ### Filament
 
-| Color             | RAL        | PLA Supplier           | ABS Supplier |
-| ----------------- | ---------- | ---------------------- | ------------ |
-| Light Bluish Gray | `RAL 7040` | dasfilament, Prusament |              |
-| Light Gray        | `RAL 7005` |                        |              |
+| Color             | RAL                      | PLA Supplier           | ABS Supplier |
+| ----------------- | ------------------------ | ---------------------- | ------------ |
+| Light Bluish Gray | `RAL 7040`               | dasfilament, Prusament |              |
+| Light Gray        | `RAL 7005` or `RAL 7004` |                        |              |
 
 - None of these colors will be an exact match, just the texture of 3d printing it can make a huge difference, but usually fall close enough in the range.
 - The original rails will be in _Light Gray_, not _Light Bluish Gray_, but since I barely own any pre- 2004 color change bricks I chose to match my other bricks instead.
@@ -141,4 +134,5 @@ In case you are new to 3D printing:
 
 - Most filaments (including PLA) can release toxic gases when _burned_
 - FDM printing can cause fine particle emission
-- ABS when heated to normal printing temperatures can release styrene fumes
+- ABS when heated to normal printing temperatures releases styrene fumes,
+  and should not be printed without very good ventilation.

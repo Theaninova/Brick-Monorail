@@ -1,0 +1,48 @@
+<svg version="1.1"
+     viewBox="0 0 45 30"
+     width="450" height="300"
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="studs-bg" width="1" height="1" patternUnits="userSpaceOnUse">
+      <circle cx="0.5" cy="0.5" r="0.3" fill="white" opacity="0.05" />
+    </pattern>
+    <pattern id="studs-fg" width="1" height="1" patternUnits="userSpaceOnUse">
+      <mask id="studs-mask">
+        <rect width="1" height="1" fill="white" />
+        <circle cx="0.5" cy="0.5" r="0.3" fill="black" />
+      </mask>
+      <rect width="1" height="1" fill="#F2CD37" mask="url(#studs-mask)" />
+    </pattern>
+    <marker
+      id="marker"
+      viewBox="0 0 4 4"
+      refX="2"
+      refY="2"
+      markerWidth="1"
+      markerHeight="1"
+      orient="auto-start-reverse">
+      <rect x="1.9" y="0" width="0.1" height="4" fill="#6D6E5C" />
+      <circle cx="2" cy="2" r="0.5" fill="#6D6E5C" />
+      <circle cx="2" cy="2" r="0.3" fill="#F2CD37" />
+    </marker>
+  </defs>
+      
+  <rect width="100%" height="100%" fill="#6D6E5C" rx="0.5" />
+
+  <path d="M1 27 a 25 25 0 0 0 15 -5" stroke-width="4" stroke="#9BA19D" opacity="0.5" fill="none" marker-start="url(#marker)" marker-end="url(#marker)" />
+  <path d="M16 22 a 25 25 0 0 0 5 -5" stroke-width="4" stroke="#9BA19D" opacity="0.5" fill="none" marker-start="url(#marker)" marker-end="url(#marker)" />
+  <path d="M21 17 l 3 -4" stroke-width="4" stroke="#9BA19D" fill="none" marker-start="url(#marker)" marker-end="url(#marker)" />
+  <path d="M24 13 a 25 25 0 0 1 5 -5" stroke-width="4" stroke="#9BA19D" opacity="0.5" fill="none" marker-start="url(#marker)" marker-end="url(#marker)" />
+  <path d="M29 8 a 25 25 0 0 1 15 -5" stroke-width="4" stroke="#9BA19D" opacity="0.5" fill="none" marker-start="url(#marker)" marker-end="url(#marker)" />
+
+  <path d="M23.5 18.5 l 2 0" stroke-width="1" stroke="url(#studs-fg)" fill="none" stroke-linecap="round" />
+  <rect x="24" y="20" width="2" height="2" fill="#F2CD37" rx="0.1" />
+  <text x="25" y="21.1" font-size="1.4" font-family="sans" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#05131D">3</text>
+
+  <path d="M25.5 17.5 l 0 -3" stroke-width="1" stroke="url(#studs-fg)" fill="none" stroke-linecap="round" />
+  <rect x="27" y="15" width="2" height="2" fill="#F2CD37" rx="0.1" />
+  <text x="28" y="16.1" font-size="1.4" font-family="sans" font-weight="bold" text-anchor="middle" dominant-baseline="middle" fill="#05131D">4</text>
+
+
+  <rect width="100%" height="100%" fill="url(#studs-bg)" />
+</svg>
