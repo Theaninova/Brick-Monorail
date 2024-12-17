@@ -41,6 +41,7 @@ def rail(params: Params):
     rail = rail_body(params, path)
     if params.teeth:
         rail = rail + rail_teeth(params, path)
+
     return rail
 
 
@@ -48,20 +49,23 @@ def rail_support_joint(
     workplane: cq.Workplane, plane: cq.Plane, params: Params
 ) -> cq.Workplane:
     standoff_offset = params.standoff_height - (params.height - params.tolerance * 2)
+    connector_offset = params.connector_size[0]
     workplane = workplane + cq.Workplane(
         cq.Plane(
-            plane.origin - (standoff_offset) / 2 * plane.zDir,
+            plane.origin
+            - ((standoff_offset) / 2 + params.support_z_offset / 2) * plane.zDir,
             plane.xDir,
             plane.zDir,
         )
     ).box(
-        params.connector_size[0] * 2,
-        params.width - u.plate(2),
-        standoff_offset,
+        params.connector_size[0] * 2 + connector_offset + params.support_padding * 2,
+        params.width + params.support_padding * 2 - params.tolerance * 2,
+        standoff_offset - params.support_z_offset,
     )
 
-    cut = cq.Workplane(plane).box(
-        (u.studs(2) + params.tolerance * 3) * 2,
+    x_size = u.studs(2) + params.tolerance * 3
+    cut = cq.Workplane(plane).center(x_size / 2 - connector_offset / 2, 0).box(
+        x_size + connector_offset,
         u.studs(params.standoff_studs[1])
         + params.standoff_padding
         + params.tolerance * 2,
@@ -93,8 +97,13 @@ def rail_support(params: Params):
     plane = cq.Plane(path.positionAt(0), -t0.cross(cq.Vector(0, 0, 1)), t0)
     workplane = (
         cq.Workplane(plane)
-        .center(0, -(standoff_offset) / 2 + params.tolerance)
-        .rect(params.width + params.tolerance * 2, standoff_offset)
+        .center(
+            0, -(standoff_offset) / 2 + params.tolerance - params.support_z_offset / 2
+        )
+        .rect(
+            params.width + params.support_padding * 2 - params.tolerance * 2,
+            standoff_offset - params.support_z_offset,
+        )
         .sweep(path)
     )
 
@@ -105,11 +114,18 @@ def rail_support(params: Params):
         workplane = workplane - (
             cq.Workplane(
                 cq.Plane(
-                    path.positionAt(d) + cq.Vector(0, 0, -(standoff_offset) / 2 - 0.4),
+                    path.positionAt(d)
+                    + cq.Vector(
+                        0,
+                        0,
+                        -(standoff_offset) / 2
+                        - params.support_expansion_joint_thickness
+                        - params.support_z_offset / 2,
+                    ),
                     path.tangentAt(d),
                 ),
             ).box(
-                0.8,
+                params.support_expansion_joint_width,
                 params.width * 2,
                 standoff_offset,
             )
@@ -127,4 +143,5 @@ def rail_support(params: Params):
         workplane = rail_support_joint(workplane, start_joint_plane, params)
     if params.end_joint:
         workplane = rail_support_joint(workplane, end_joint_plane, params)
+
     return workplane

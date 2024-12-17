@@ -23,6 +23,16 @@ class Params:
     width: float = u.studs(4)
     height = u.studs(1)
 
+    support_padding = u.ldu(4)
+    support_clamp = True
+    support_clamp_thickness = u.ldu(4)
+    support_clamp_height = 0.2
+    support_clamp_margin = 0.2
+
+    support_expansion_joint_width = 0.8
+    support_expansion_joint_thickness = 1.0
+    support_z_offset = 0.1
+
     # Tolerance is also used in the injection moulded parts.
     # The tolerance applies to each individual side,
     # but is only subtracted once from the height.
@@ -58,3 +68,25 @@ class Params:
     teeth_spacing = math.pi / 2
     teeth_inner_width = u.ldu(9) - 0.3  # 3d printing optimization
     teeth_outer_width = u.ldu(15.5) + 0.3  # 3d printing optimization
+
+
+@dataclass
+class StanchionParams:
+    base_size: tuple[float, float, float]
+    base_chamfer: float
+    height: float
+    beam_count: int
+    tip_size = (2, 2, u.ldu(4))
+    stanchion_angle = (math.radians(86.5), math.radians(87.5))
+    stanchion_fillet = u.ldu(3)
+    stanchion_tip_size = (u.ldu(32), u.ldu(20))
+    stanchion_inner_thickness = u.ldu(9)
+    stanchion_strength = u.ldu(4)
+    angles = [
+        0,
+        math.atan(4 / 3),
+        math.atan(3 / 4),
+        math.atan(24 / 7),
+        math.atan(7 / 24),
+    ]
+    tip_support = True

@@ -327,7 +327,7 @@ def straight_joint(params: Params, plane: cq.Plane):
             centered=(True, True, False),
         )
         .edges("|Z")
-        .chamfer(params.standoff_padding / 2)
+        .chamfer(params.standoff_padding)
     )
     workplane = workplane - stud_slot
     for i in range(1, params.standoff_studs[0] + 1):

@@ -84,14 +84,35 @@ grid with turntables.
 
 - Curve C15
 - Curve C7
+
 - Straight S25
-- Straight S12
+- Straight S15
 - Straight S10
 - Straight S5
 - Straight S2
-- Ramp I13
+
+- Ramp I17.5
+- Ramp Adapter S8.5
+
+- Point P15
 
 See the [Cheatsheet](./R25.md) to see how incredibly flexible this system is.
+
+Unfortunately, ramps don't have a super convenient triple.
+A short stanchion has a height of 5 bricks, which is the length of 6 studs (since bricks are taller than wide).
+The only triple that matches perfectly has an angle of ~36.9°, way too much.
+
+- `12/35/37` has an angle of ~18.92°, but would need 18.5 stud rails and moves 17.5.
+  A full ramp therefore moves 35 studs, which conveniently is S25+S10.
+  - One S18.5 ramp extension piece
+  - One S8.5 to use with an S10
+  - One S6.5 to use with an S10 and S2
+- The original dimensions, 5 up and 16 forward,
+  which require a straight piece with a length of 17.088 studs.
+  A stud is 8mm, so the extra 0.088 studs are 0.704mm which is significant enough to be noticeable.
+  - Illegal ramp extensions as just S10+S2+S5
+  - A custom 1x6 plate that has 0.352mm gaps every two studs, then use S10+S2+S5
+  - 4DBrix-style extensions with 17.088 stud length
 
 ## Printing
 
