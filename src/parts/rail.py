@@ -4,17 +4,21 @@ from params import Params
 import units as u
 from parts.body import rail_body
 from parts.teeth import rail_teeth
+from parts.straight_joint import straight_joint_buildplate_studs
 
 
-def rail(params: Params):
-    path = cq.Wire.assembleEdges(
+def rail_arc(params: Params) -> cq.Wire:
+    return cq.Wire.assembleEdges(
         (
             cq.Workplane("XY").polyline([(0, 0), params.to])
             if params.to[0] == 0
             else cq.Workplane("XY").radiusArc(params.to, params.radius)
         ).ctx.pendingEdges
     )
-    dumb_path = cq.Wire.assembleEdges(
+
+
+def rail_spline(params: Params) -> cq.Wire:
+    return cq.Wire.assembleEdges(
         cq.Workplane("XY")
         .spline(
             [
@@ -26,18 +30,32 @@ def rail(params: Params):
         )
         .ctx.pendingEdges
     )
-    dumb_path = cq.Wire.assembleEdges(
-        cq.Workplane("XY")
-        .polyline(
-            [
-                (u.studs(0), u.studs(0)),
-                (u.studs(5), u.studs(0)),
-                (u.studs(5), u.studs(5)),
-            ],
-        )
-        .ctx.pendingEdges
-    )
 
+
+def rail_split(params: Params) -> tuple[cq.Workplane, cq.Workplane]:
+    path = rail_arc(params)
+    body = rail_body(params, path)
+    body = body.rotate((0, 0, 0), (0, 1, 0), 180)
+
+    rack = rail_teeth(params, path)
+
+    joint_tolerance_offset = cq.Vector(0, 0, params.tolerance)
+    if params.start_joint:
+        start_joint_plane = cq.Plane(
+            path.positionAt(0) + joint_tolerance_offset, path.tangentAt(0)
+        )
+        rack = rack + straight_joint_buildplate_studs(params, start_joint_plane)
+    if params.end_joint:
+        end_joint_plane = cq.Plane(
+            path.positionAt(1) + joint_tolerance_offset, path.tangentAt(1) * -1
+        )
+        rack = rack + straight_joint_buildplate_studs(params, end_joint_plane)
+
+    return body, rack
+
+
+def rail(params: Params):
+    path = rail_arc(params)
     rail = rail_body(params, path)
     if params.teeth:
         rail = rail + rail_teeth(params, path)
@@ -66,9 +84,7 @@ def rail_support_joint(
     x_size = u.studs(2) + params.tolerance * 3
     cut = cq.Workplane(plane).center(x_size / 2 - connector_offset / 2, 0).box(
         x_size + connector_offset,
-        u.studs(params.standoff_studs[1])
-        + params.standoff_padding
-        + params.tolerance * 2,
+        params.standoff_width + params.tolerance * 2,
         params.height,
     ) - cq.Workplane(plane).center(
         u.studs(params.standoff_studs[0]) + params.tolerance * 2, 0

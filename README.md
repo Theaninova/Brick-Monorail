@@ -24,7 +24,64 @@ For now, I also use non-baseplate aligned joints for curves. While this means yo
 on a baseplate, it enables you to use straight rails at non-90 degree angles which I think is an absolute
 win over the original design since the 45 degree curves are useless outside of joining them with switches.
 
-### Solid/Support (preferred)
+Classic/PoP is going to give you the best results while also being one of the easiest to print.
+
+### V3 (Classic/PoP)
+
+<div style="display: flex">
+<img alt="C15" src="./assets/classic_pop/C15_body.svg" width="300">
+<img alt="Standoff" src="./assets/classic_pop/C15_rack.svg" width="300">
+</div>
+
+The base rail is printed face down to the build plate.
+In a second step, the rack is printed on top of the pre-printed rail.
+
+This eliminates the need for supports and is visually the best option by far.
+
+**You need a smooth PEI (or ideally WhamBam PEX) build surface.**
+Textured PEI does not provide enough dimensional accuracy in z direction.
+
+Print settings
+
+- 0.2mm layer height
+  - 0.1, 0.08 and 0.05 are also okay
+- **100%** Sparse infill density
+- **100000mm²** Minimum sparse infill threshold
+- For the rack, add a pause at 10.40mm (the layer where the rack gets printed)
+- Only one wall on first layer
+- Only one wall on top layers
+- No ironing, though you are welcome to experiment
+
+#### High gloss top
+
+This is a bit of extra effort,
+but gives a glossy, injection molded finish to the top of the rail.
+
+I highly recommend this.
+
+- **High-gloss top**
+  - **WhamBam PEX build plate**
+    - **DO NOT SCUFF UP THE SURFACE** or you get a matte finish
+    - Select **Smooth PEI Plate** or you will get a bad z offset
+    - **No cooling for the first 4 layers**
+    - **WIPE YOUR PLATE BEFORE EVERY PRINT**.
+      - Avoid touching the build plate
+      - Use **IPA and a paper towel**
+      - **NO MICROFIBER CLOTH**
+      - Any Dust specs on the plate will be embedded permanently into the print's surface
+  - **Initial Layer Settings**:
+    - **240°C** nozzle temperature or higher if your material allows
+    - **10mm/s** speed or lower
+    - **0.1mm** layer height
+    - Default acceleration
+    - Default flow
+    - Default line width (even 0.5mm looks great)
+  - **0mm-0.2mm** height range modifier
+    - **0.1mm** layer height
+    - **Iron all solid layers**
+      _you don't want the top surface to be perfect only for the next layer lines to shine through_
+
+### V2 (Solid/Support)
 
 <div style="display: flex">
 <img alt="C15" src="./assets/solid_support/C15.svg" width="300">
@@ -54,17 +111,10 @@ This one is **optimized for 3D printing**, with a single reusable support piece 
 
 ### Solid
 
-<div style="display: flex">
 <img alt="C15" src="./assets/solid/C15.svg" width="300">
-<img alt="Standoff" src="./assets/standoff.svg" width="150">
-</div>
-
-This one is **optimized for 3D printing**, with the rail solid and flush to the bed and inserts that are printed separately.
 
 **Requires additional pieces per rail:**
 
-- **2x printed standoff**, these are inserted into the bottom, and need to be fixated there (glue, melting).
-  If you don't use any original Monorail tracks you can also simply place a 2x2 plate there (this changes the height).
 - **8x 4274 technic pin with stud**, because side studs print notoriously bad.
   This version comes with technic pin holes instead.
 

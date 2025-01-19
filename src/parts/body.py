@@ -48,7 +48,10 @@ def rail_body(params: Params, path: cq.Wire):
 
     shell_thickness = (u.studs(1) - u.stud(1)) / 2
     if params.shell:
-        workplane = workplane.faces("<Z").shell(-shell_thickness)
+        try:
+            workplane = workplane.faces("<Z").shell(-shell_thickness)
+        except:
+            pass
 
     standoff_cut_depth = (
         u.studs(params.joint_studs - params.standoff_studs[0]) + shell_thickness
@@ -59,7 +62,7 @@ def rail_body(params: Params, path: cq.Wire):
         if params.shell
         else standoff_offset
     )
-    standoff_cut_width = params.width - u.studs(params.standoff_studs[1])
+    standoff_cut_width = params.standoff_width - params.standoff_shell_thickness * 2
     if params.start_joint:
         workplane = workplane + straight_joint(params, start_joint_plane)
         cut = cq.Workplane(
@@ -150,67 +153,64 @@ def rail_body(params: Params, path: cq.Wire):
         workplane = workplane - support_path
 
     if params.support_clamp:
-        workplane = (
-            workplane
-            + (
-                (
-                    cq.Workplane(plane)
-                    .center(0, params.tolerance)
-                    .rect(
-                        params.width
-                        + params.support_padding * 2
-                        + params.support_clamp_thickness * 2,
-                        params.support_clamp_height,
-                        centered=(True, False),
-                    )
-                    .sweep(path)
+        support_clamp = (
+            (
+                cq.Workplane(plane)
+                .center(0, params.tolerance)
+                .rect(
+                    params.width
+                    + params.support_padding * 2
+                    + params.support_clamp_thickness[0] * 2,
+                    params.support_clamp_height,
+                    centered=(True, False),
                 )
-                - (
-                    cq.Workplane(plane)
-                    .center(0, params.tolerance)
-                    .rect(
-                        params.width + params.support_clamp_margin * 2,
-                        params.support_clamp_height,
-                        centered=(True, False),
-                    )
-                    .sweep(path)
-                )
+                .sweep(path)
             )
-            + (
-                (
-                    cq.Workplane(plane)
-                    .center(
-                        0, params.height - params.standoff_height - params.tolerance
-                    )
-                    .rect(
-                        params.width
-                        + params.support_padding * 2
-                        + params.support_clamp_thickness * 2,
-                        params.standoff_height - params.height + params.tolerance * 2,
-                        centered=(True, False),
-                    )
-                    .sweep(path)
+            - (
+                cq.Workplane(plane)
+                .center(0, params.tolerance)
+                .rect(
+                    params.width + params.support_clamp_margin * 2,
+                    params.support_clamp_height,
+                    centered=(True, False),
                 )
-                - (
-                    cq.Workplane(plane)
-                    .center(
-                        0, params.height - params.standoff_height - params.tolerance
-                    )
-                    .rect(
-                        params.width
-                        + params.support_padding * 2
-                        + params.tolerance * 2,
-                        params.standoff_height - params.height + params.tolerance * 2,
-                        centered=(True, False),
-                    )
-                    .sweep(path)
+                .sweep(path)
+            )
+        ) + (
+            (
+                cq.Workplane(plane)
+                .center(0, params.height - params.standoff_height - params.tolerance)
+                .rect(
+                    params.width
+                    + params.support_padding * 2
+                    + params.support_clamp_thickness[0] * 2,
+                    params.standoff_height - params.height + params.tolerance * 2,
+                    centered=(True, False),
                 )
+                .sweep(path)
+            )
+            - (
+                cq.Workplane(plane)
+                .center(0, params.height - params.standoff_height - params.tolerance)
+                .rect(
+                    params.width + params.support_padding * 2 + params.tolerance * 2,
+                    params.standoff_height - params.height + params.tolerance * 2,
+                    centered=(True, False),
+                )
+                .sweep(path)
             )
         )
+
         if params.start_joint:
-            workplane = workplane + straight_joint_clamp(params, start_joint_plane)
+            support_clamp = support_clamp + straight_joint_clamp(
+                params, start_joint_plane
+            )
         if params.end_joint:
-            workplane = workplane + straight_joint_clamp(params, end_joint_plane)
+            support_clamp = support_clamp + straight_joint_clamp(
+                params, end_joint_plane
+            )
+
+        workplane = workplane + support_clamp
 
     return workplane
 
@@ -224,10 +224,10 @@ def straight_joint_clamp(params: Params, plane: cq.Plane) -> cq.Workplane:
         cq.Workplane(local_plane).box(
             params.support_padding * 2
             - params.tolerance
-            + params.support_clamp_thickness,
+            + params.support_clamp_thickness[1],
             params.width
             + params.support_padding * 2
-            + params.support_clamp_thickness * 2,
+            + params.support_clamp_thickness[0] * 2,
             support_offset + params.support_clamp_height,
             centered=(False, True, False),
         )

@@ -5,27 +5,33 @@ import units as u
 
 @dataclass
 class Params:
-    radius: float
-    to: tuple
-    shell: bool
-    hollow_studs: bool
-    # 3D printing optimization that allows
-    # for the part to be printed flush to the
-    # bed, at the expense of having to glue
-    standoff_flush_cut: bool
+    radius: float = u.studs(25)
+    to: tuple[float, float] = (u.studs(0), u.studs(5))
+    shell: bool = True
+    hollow_studs: bool = True
     # Instead of 3d printing the studs,
     # a pin hole is left to insert a 4274
     # technic pit with a stud.
-    standoff_uses_pins: bool
-    chamfer_bottom: float or None
-    style: str or None
+    standoff_uses_pins: bool = False
+    # Instead of 3d printing the studs,
+    # an anti-stud hole is left to insert
+    # a 3rd party single anti-stud piece.
+    standoff_uses_anti_studs: bool = False
+    chamfer_bottom: float | None = None
+    style: str | None = None
+
+    # Special 3D printing mode where you
+    # print the rack on an already printed
+    # main piece
+    rack_print_on_print: bool = False
+    rack_print_on_print_stud_chamfer: float = u.ldu(1)
 
     width: float = u.studs(4)
     height = u.studs(1)
 
     support_padding = u.ldu(4)
-    support_clamp = True
-    support_clamp_thickness = u.ldu(4)
+    support_clamp = False
+    support_clamp_thickness = (u.ldu(4), u.ldu(10))
     support_clamp_height = 0.2
     support_clamp_margin = 0.2
 
@@ -46,8 +52,8 @@ class Params:
     nail_slot_size = (u.studs(1), u.ldu(1), u.ldu(1))
 
     connector = True
-    connector_position = u.ldu(4)
-    connector_size = (u.ldu(2), u.ldu(7))
+    connector_position = u.ldu(3.5)
+    connector_size = (u.ldu(1.5), u.ldu(7.25))
 
     # 3D printing optimization that makes
     # functional inner corners sharper
@@ -59,7 +65,10 @@ class Params:
     shell_support = True
 
     standoff_height = u.brick(1) + u.ldu(1)
-    standoff_padding = u.ldu(6)
+    standoff_width = u.ldu(47.5)
+    standoff_shell_thickness = u.ldu(2.5)
+    standoff_thickness = u.ldu(2.5)
+    standoff_chamfer = u.ldu(1)
     standoff_studs = (1, 2)
 
     teeth = True
